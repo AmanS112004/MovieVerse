@@ -1,0 +1,162 @@
+import React from 'react';
+import { motion } from 'motion/react';
+import { Film, Bookmark, Clock, Scale, LogOut, User } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import api from '@/lib/api';
+import MovieCard from './MovieCard';
+import { useStore } from '@/store/useStore';
+import type { Movie } from '@/types';
+
+interface DashboardProps {
+  onMovieClick: (movie: Movie) => void;
+  onClose: () => void;
+}
+
+export default function Dashboard({ onMovieClick, onClose }: DashboardProps) {
+  const { user, clearAuth, recentlyViewed, bookmarks } = useStore();
+  const [activeTab, setActiveTab] = React.useState<'saved' | 'recent'>('saved');
+
+  const { data: savedMovies, isLoading, isError } = useQuery<Movie[]>({
+    queryKey: ['bookmarked-movies', bookmarks],
+    queryFn: async () => {
+      if (!bookmarks.length) return [];
+      
+      const moviePromises = bookmarks.slice(0, 40).map(async (b) => {
+        try {
+          const { data } = await api.get(`/movies/detail/${b.id}`, { 
+            params: { media_type: b.media_type || 'movie' } 
+          });
+          return data;
+        } catch (err) {
+          console.error(`Failed to fetch detail for ${b.id}:`, err);
+          return null;
+        }
+      });
+
+      const results = await Promise.all(moviePromises);
+      const filtered = results.filter((m): m is Movie => m !== null);
+      console.log('Dashboard Fetched Movies:', filtered.length, 'of', bookmarks.length);
+      return filtered;
+    },
+    enabled: bookmarks.length > 0, // Always fetch if bookmarks exist
+    staleTime: 60 * 1000,
+  });
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: '100%' }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: '100%' }}
+      transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
+      className="fixed inset-y-0 right-0 z-[90] w-full sm:w-[480px] overflow-hidden"
+      style={{
+        background: '#0a150a',
+        borderLeft: '1px solid rgba(172,200,162,0.12)',
+        boxShadow: '-40px 0 80px rgba(0,0,0,0.5)',
+      }}
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between p-5 border-b border-[rgba(172,200,162,0.08)]">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-full flex items-center justify-center bg-[rgba(172,200,162,0.15)]">
+            <User className="w-4 h-4 text-[#ACC8A2]" />
+          </div>
+          <div>
+            <div className="font-bold text-sm text-[#ACC8A2]">{user?.name || 'Guest'}</div>
+            <div className="text-xs text-[rgba(172,200,162,0.4)]">{user?.email}</div>
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            onClick={() => { clearAuth(); onClose(); }}
+            className="p-2 rounded-xl hover:bg-[rgba(172,200,162,0.1)] transition-colors text-[rgba(172,200,162,0.5)] hover:text-[#ACC8A2]"
+            title="Sign out"
+          >
+            <LogOut className="w-4 h-4" />
+          </motion.button>
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            onClick={onClose}
+            className="p-2 rounded-xl hover:bg-[rgba(172,200,162,0.1)] transition-colors text-[rgba(172,200,162,0.5)]"
+          >
+            ✕
+          </motion.button>
+        </div>
+      </div>
+
+      {/* Stats */}
+      <div className="grid grid-cols-2 gap-3 p-5">
+        <div className="p-4 rounded-2xl text-center" style={{ background: 'rgba(172,200,162,0.05)', border: '1px solid rgba(172,200,162,0.08)' }}>
+          <div className="text-2xl font-black text-[#ACC8A2]">{bookmarks.length}</div>
+          <div className="text-xs text-[rgba(172,200,162,0.4)] mt-0.5 flex items-center justify-center gap-1">
+            <Bookmark className="w-3 h-3" /> Saved
+          </div>
+        </div>
+        <div className="p-4 rounded-2xl text-center" style={{ background: 'rgba(172,200,162,0.05)', border: '1px solid rgba(172,200,162,0.08)' }}>
+          <div className="text-2xl font-black text-[#ACC8A2]">{recentlyViewed.length}</div>
+          <div className="text-xs text-[rgba(172,200,162,0.4)] mt-0.5 flex items-center justify-center gap-1">
+            <Clock className="w-3 h-3" /> Viewed
+          </div>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex gap-1 px-5 mb-4">
+        {[
+          { id: 'saved' as const, label: 'Saved', icon: Bookmark },
+          { id: 'recent' as const, label: 'Recently Viewed', icon: Clock },
+        ].map(({ id, label, icon: Icon }) => (
+          <button
+            key={id}
+            onClick={() => setActiveTab(id)}
+            className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+              activeTab === id
+                ? 'bg-[rgba(172,200,162,0.15)] text-[#ACC8A2]'
+                : 'text-[rgba(172,200,162,0.4)] hover:text-[rgba(172,200,162,0.6)]'
+            }`}
+          >
+            <Icon className="w-3.5 h-3.5" />
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {/* Content */}
+      <div className="overflow-y-auto px-5 pb-8" style={{ height: 'calc(100vh - 260px)' }}>
+        {activeTab === 'saved' ? (
+          isLoading ? (
+            <div className="grid grid-cols-2 gap-3">
+              {[1,2,3,4].map(i => <div key={i} className="aspect-[2/3] rounded-2xl shimmer" />)}
+            </div>
+          ) : savedMovies && savedMovies.length > 0 ? (
+            <div className="grid grid-cols-2 gap-3">
+              {savedMovies.map((m, i) => (
+                <MovieCard key={m.id} movie={m} onClick={onMovieClick} index={i} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-48 text-[rgba(172,200,162,0.3)]">
+              <Bookmark className="w-10 h-10 mb-3 opacity-40" />
+              <p className="text-sm">No saved movies yet</p>
+              <p className="text-xs mt-1">Click the bookmark icon on any movie</p>
+            </div>
+          )
+        ) : (
+          recentlyViewed.length > 0 ? (
+            <div className="grid grid-cols-2 gap-3">
+              {recentlyViewed.map((m, i) => (
+                <MovieCard key={m.id} movie={m} onClick={onMovieClick} index={i} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-48 text-[rgba(172,200,162,0.3)]">
+              <Clock className="w-10 h-10 mb-3 opacity-40" />
+              <p className="text-sm">No recently viewed</p>
+            </div>
+          )
+        )}
+      </div>
+    </motion.div>
+  );
+}

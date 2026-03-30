@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #ACC8A2;
+  --bg: #1A2517;
+  --glass: rgba(172, 200, 162, 0.06);
+  --glass-border: rgba(172, 200, 162, 0.15);
+  --glass-hover: rgba(172, 200, 162, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #1A2517;
+  color: #ACC8A2;
+  font-family: 'Inter', system-ui, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(26, 37, 23, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(172, 200, 162, 0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(172, 200, 162, 0.5);
+}
+
+/* Glass morphism */
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #ACC8A2 0%, rgba(172, 200, 162, 0.6) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Overlay gradient */
+.overlay-gradient {
+  background: linear-gradient(to top,
+      #1A2517 0%,
+      rgba(26, 37, 23, 0.8) 40%,
+      rgba(26, 37, 23, 0.2) 70%,
+      transparent 100%);
+}
+
+/* Shimmer loading */
+.shimmer {
+  background: linear-gradient(90deg,
+      rgba(172, 200, 162, 0.05) 25%,
+      rgba(172, 200, 162, 0.12) 50%,
+      rgba(172, 200, 162, 0.05) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Float animation */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float 6s ease-in-out 2s infinite;
+}
+
+/* Selection */
+::selection {
+  background: rgba(172, 200, 162, 0.3);
+  color: #ACC8A2;
+}
+
+/* Input placeholder */
+input::placeholder,
+textarea::placeholder {
+  color: rgba(172, 200, 162, 0.4);
+}
