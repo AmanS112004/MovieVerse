@@ -30,7 +30,7 @@ export default function ActorModal({ personId, onClose, onMovieClick }: ActorMod
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center p-0 sm:p-4"
         onClick={e => { if (e.target === e.currentTarget) onClose(); }}
-        style={{ background: 'rgba(5,10,4,0.9)', backdropFilter: 'blur(12px)' }}
+        style={{ background: 'rgba(26,15,5,0.9)', backdropFilter: 'blur(12px)' }}
       >
         <motion.div
           initial={{ y: 40, opacity: 0, scale: 0.97 }}
@@ -39,20 +39,20 @@ export default function ActorModal({ personId, onClose, onMovieClick }: ActorMod
           transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
           className="relative w-full max-w-2xl max-h-[90vh] overflow-hidden rounded-t-3xl sm:rounded-3xl"
           style={{
-            background: '#0e1a0c',
-            border: '1px solid rgba(172,200,162,0.12)',
+            background: '#38240D',
+            border: '1px solid rgba(253,251,212,0.12)',
             boxShadow: '0 40px 120px rgba(0,0,0,0.9)',
           }}
           onClick={e => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-5 border-b border-[rgba(172,200,162,0.08)]">
-            <h2 className="font-bold text-lg text-[#ACC8A2]">
+          <div className="flex items-center justify-between p-5 border-b border-[rgba(253,251,212,0.08)]">
+            <h2 className="font-bold text-lg text-[#FDFBD4]">
               {isLoading ? 'Loading...' : person?.name}
             </h2>
             <motion.button whileTap={{ scale: 0.9 }} onClick={onClose}
-              className="p-2 rounded-full hover:bg-[rgba(172,200,162,0.1)] transition-colors">
-              <X className="w-5 h-5 text-[#ACC8A2]" />
+              className="p-2 rounded-full hover:bg-[rgba(253,251,212,0.1)] transition-colors">
+              <X className="w-5 h-5 text-[#FDFBD4]" />
             </motion.button>
           </div>
 
@@ -70,15 +70,15 @@ export default function ActorModal({ personId, onClose, onMovieClick }: ActorMod
               <div className="p-5">
                 {/* Person info */}
                 <div className="flex gap-5 mb-6">
-                  <div className="w-24 h-32 rounded-xl overflow-hidden border border-[rgba(172,200,162,0.15)] flex-shrink-0">
+                  <div className="w-24 h-32 rounded-xl overflow-hidden border border-[rgba(253,251,212,0.15)] flex-shrink-0">
                     {person.profile_path ? (
                       <img src={`https://image.tmdb.org/t/p/w185${person.profile_path}`} alt={person.name} className="w-full h-full object-cover" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-3xl bg-[rgba(172,200,162,0.05)]">👤</div>
+                      <div className="w-full h-full flex items-center justify-center text-3xl bg-[rgba(253,251,212,0.05)]">👤</div>
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-xl font-bold text-[#ACC8A2] mb-2">{person.name}</h3>
+                    <h3 className="text-xl font-bold text-[#FDFBD4] mb-2">{person.name}</h3>
                     <div className="space-y-1.5 text-sm">
                       {person.known_for_department && (
                         <div className="text-[rgba(172,200,162,0.6)]">
@@ -86,8 +86,8 @@ export default function ActorModal({ personId, onClose, onMovieClick }: ActorMod
                         </div>
                       )}
                       {person.birthday && (
-                        <div className="text-[rgba(172,200,162,0.6)]">
-                          <span className="text-[rgba(172,200,162,0.4)]">Born:</span> {new Date(person.birthday).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}
+                        <div className="text-[rgba(253,251,212,0.6)]">
+                          <span className="text-[rgba(253,251,212,0.4)]">Born:</span> {new Date(person.birthday).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}
                         </div>
                       )}
                       {person.place_of_birth && (
@@ -97,7 +97,7 @@ export default function ActorModal({ personId, onClose, onMovieClick }: ActorMod
                       )}
                     </div>
                     {person.biography && (
-                      <p className="text-xs text-[rgba(172,200,162,0.5)] mt-3 leading-relaxed line-clamp-3">{person.biography}</p>
+                      <p className="text-xs text-[rgba(253,251,212,0.5)] mt-3 leading-relaxed line-clamp-3">{person.biography}</p>
                     )}
                   </div>
                 </div>
@@ -105,7 +105,7 @@ export default function ActorModal({ personId, onClose, onMovieClick }: ActorMod
                 {/* Known for movies */}
                 {person.topMovies && person.topMovies.length > 0 && (
                   <div>
-                    <h4 className="text-sm font-bold text-[rgba(172,200,162,0.5)] uppercase tracking-wider mb-3 flex items-center gap-2">
+                    <h4 className="text-sm font-bold text-[rgba(253,251,212,0.5)] uppercase tracking-wider mb-3 flex items-center gap-2">
                       <Film className="w-4 h-4" />
                       Known For
                     </h4>
@@ -138,7 +138,7 @@ export default function ActorModal({ personId, onClose, onMovieClick }: ActorMod
                 )}
               </div>
             ) : (
-              <div className="p-6 text-center text-[rgba(172,200,162,0.4)]">Failed to load person data</div>
+              <div className="p-6 text-center text-[rgba(253,251,212,0.4)]">Failed to load person data</div>
             )}
           </div>
         </motion.div>

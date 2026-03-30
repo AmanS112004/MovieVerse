@@ -38,6 +38,7 @@ router.get('/trending', async (req, res) => {
 
 // Get 30+ similar movies based on vibe, tone, themes (Advanced Engine)
 router.get('/similar/:id', getAdvancedSimilar);
+router.get('/recommend/:id', getAdvancedSimilar);
 
 // Full movie details with OMDB ratings
 router.get('/detail/:id', async (req, res) => {
@@ -137,12 +138,19 @@ router.get('/compare/:id1/:id2', async (req, res) => {
     const { id1, id2 } = req.params;
     const { media_type = 'movie' } = req.query;
 
-    const [res1, res2] = await Promise.all([
-      tmdb(`/${media_type}/${id1}`, { append_to_response: 'external_ids,keywords,credits,reviews' }),
-      tmdb(`/${media_type}/${id2}`, { append_to_response: 'external_ids,keywords,credits,reviews' }),
+    const [res1, res2] = await Promise.allSettled([
+      tmdb(`/${req.query.media_type1 || 'movie'}/${id1}`, { append_to_response: 'external_ids,keywords,credits,reviews' }),
+      tmdb(`/${req.query.media_type2 || 'movie'}/${id2}`, { append_to_response: 'external_ids,keywords,credits,reviews' }),
     ]);
+    
+    if (res1.status === 'rejected' || res2.status === 'rejected') {
+       const failed = res1.status === 'rejected' ? res1 : res2;
+       throw new Error(`Failed to build the arena: ${failed.reason.message || 'Third-party API error'}`);
+    }
 
-    const compute = (detail) => {
+    const compute = (result) => {
+      if (result.status === 'rejected') return null;
+      const detail = result.value.data;
       const genreIds = detail.genres?.map(g => g.id) || [];
       const keywords = (detail.keywords?.keywords || detail.keywords?.results || []).map(k => k.name.toLowerCase());
       
@@ -181,8 +189,8 @@ router.get('/compare/:id1/:id2', async (req, res) => {
       };
     };
 
-    const m1 = compute(res1.data);
-    const m2 = compute(res2.data);
+    const m1 = compute(res1);
+    const m2 = compute(res2);
 
     // 1. Shared Cast
     const sharedCast = m1.cast.filter(c1 => m2.cast.some(c2 => c1.id === c2.id)).slice(0, 10);

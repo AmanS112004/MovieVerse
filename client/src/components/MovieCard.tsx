@@ -58,10 +58,10 @@ export default function MovieCard({ movie, onClick, index = 0 }: MovieCardProps)
           whileTap={{ scale: 0.97 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
           className="relative rounded-2xl overflow-hidden"
-          style={{ background: 'rgba(26,37,23,0.9)', transformStyle: 'preserve-3d' }}
+          style={{ background: 'rgba(56,36,13,0.9)', transformStyle: 'preserve-3d' }}
         >
           {/* Poster */}
-          <div className="aspect-[2/3] relative overflow-hidden bg-[rgba(172,200,162,0.05)]">
+          <div className="aspect-[2/3] relative overflow-hidden bg-[rgba(253,251,212,0.05)]">
             {movie.poster_path ? (
               <img
                 src={getPosterUrl(movie.poster_path)}
@@ -70,7 +70,7 @@ export default function MovieCard({ movie, onClick, index = 0 }: MovieCardProps)
                 loading="lazy"
               />
             ) : (
-              <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-[rgba(172,200,162,0.3)]">
+              <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-[rgba(253,251,212,0.3)]">
                 <span className="text-4xl">🎬</span>
                 <span className="text-xs text-center px-3">{truncate(title, 30)}</span>
               </div>
@@ -82,16 +82,16 @@ export default function MovieCard({ movie, onClick, index = 0 }: MovieCardProps)
             {/* Rating badge */}
             <div className="absolute top-2 left-2 z-10">
               <div className="flex items-center gap-1 px-2 py-1 rounded-lg backdrop-blur-md"
-                style={{ background: 'rgba(26,37,23,0.85)', border: '1px solid rgba(172,200,162,0.2)' }}>
-                <Star className="w-3 h-3 fill-[#ACC8A2] text-[#ACC8A2]" />
-                <span className="text-xs font-bold text-[#ACC8A2]">{rating > 0 ? rating.toFixed(1) : 'N/A'}</span>
+                style={{ background: 'rgba(56,36,13,0.85)', border: '1px solid rgba(253,251,212,0.2)' }}>
+                <Star className="w-3 h-3 fill-[#C05800] text-[#C05800]" />
+                <span className="text-xs font-bold text-[#FDFBD4]">{rating > 0 ? rating.toFixed(1) : 'N/A'}</span>
               </div>
             </div>
 
             {/* Media type badge */}
             {isTV && (
               <div className="absolute top-2 right-2 px-2 py-1 rounded-lg backdrop-blur-md text-xs font-semibold z-10"
-                style={{ background: 'rgba(172,200,162,0.2)', border: '1px solid rgba(172,200,162,0.3)', color: '#ACC8A2' }}>
+                style={{ background: 'rgba(192,88,0,0.2)', border: '1px solid rgba(192,88,0,0.3)', color: '#FDFBD4' }}>
                 TV
               </div>
             )}
@@ -99,9 +99,9 @@ export default function MovieCard({ movie, onClick, index = 0 }: MovieCardProps)
             {/* Similarity Score Badge */}
             {movie.similarity_score !== undefined && (
               <div className="absolute bottom-2 right-2 z-10">
-                <div className="px-2 py-1 rounded-lg backdrop-blur-md border border-[#ACC8A2]/30 bg-[#1A2517]/80"
+                <div className="px-2 py-1 rounded-lg backdrop-blur-md border border-[#FDFBD4]/30 bg-[#38240D]/80"
                   style={{ boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
-                  <span className="text-[10px] font-black text-[#ACC8A2]">
+                  <span className="text-[10px] font-black text-[#FDFBD4]">
                     {movie.similarity_score}% MATCH
                   </span>
                 </div>
@@ -111,11 +111,11 @@ export default function MovieCard({ movie, onClick, index = 0 }: MovieCardProps)
 
           {/* Info panel */}
           <div className="p-3">
-            <h3 className="font-bold text-[#ACC8A2] text-sm leading-tight line-clamp-2 mb-1">{title}</h3>
+            <h3 className="font-bold text-[#FDFBD4] text-sm leading-tight line-clamp-2 mb-1">{title}</h3>
             <div className="flex items-center justify-between">
-              <span className="text-xs text-[rgba(172,200,162,0.5)] font-medium">{year}</span>
+              <span className="text-xs text-[rgba(253,251,212,0.5)] font-medium">{year}</span>
               {movie.genre_ids && movie.genre_ids.length > 0 && (
-                <span className="text-xs text-[rgba(172,200,162,0.4)]">
+                <span className="text-xs text-[rgba(253,251,212,0.4)]">
                   {movie.genre_ids.slice(0, 2).map(id => {
                     const genres: Record<number, string> = { 28: 'Action', 35: 'Comedy', 18: 'Drama', 27: 'Horror', 53: 'Thriller', 16: 'Animation', 80: 'Crime', 10749: 'Romance', 878: 'Sci-Fi', 14: 'Fantasy' };
                     return genres[id];
@@ -136,8 +136,8 @@ export default function MovieCard({ movie, onClick, index = 0 }: MovieCardProps)
           className={cn(
             'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-semibold transition-all shadow-2xl pointer-events-auto',
             bookmarked
-              ? 'bg-[#ACC8A2] text-[#1A2517]'
-              : 'bg-[rgba(26,37,23,0.95)] text-[#ACC8A2] border border-[rgba(172,200,162,0.4)] hover:bg-[rgba(172,200,162,0.2)]'
+              ? 'bg-[#C05800] text-white'
+              : 'bg-[rgba(26,15,5,0.95)] text-[#FDFBD4] border border-[rgba(253,251,212,0.2)] hover:bg-[rgba(253,251,212,0.1)]'
           )}
         >
           {bookmarked ? <BookmarkCheck className="w-3.5 h-3.5" /> : <Bookmark className="w-3.5 h-3.5" />}
@@ -150,8 +150,8 @@ export default function MovieCard({ movie, onClick, index = 0 }: MovieCardProps)
           className={cn(
             'flex items-center justify-center p-2.5 rounded-xl text-xs font-semibold transition-all shadow-2xl pointer-events-auto',
             inCompare
-              ? 'bg-[rgba(172,200,162,0.4)] text-[#ACC8A2]'
-              : 'bg-[rgba(26,37,23,0.95)] text-[rgba(172,200,162,0.7)] border border-[rgba(172,200,162,0.4)] hover:bg-[rgba(172,200,162,0.15)]'
+              ? 'bg-[rgba(192,88,0,0.4)] text-[#FDFBD4]'
+              : 'bg-[rgba(26,15,5,0.95)] text-[rgba(253,251,212,0.7)] border border-[rgba(253,251,212,0.2)] hover:bg-[rgba(253,251,212,0.1)]'
           )}
           title={inCompare ? 'Added to compare' : 'Add to compare'}
         >
@@ -161,7 +161,7 @@ export default function MovieCard({ movie, onClick, index = 0 }: MovieCardProps)
 
       {/* Floating glow on hover */}
       <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-        style={{ boxShadow: '0 0 40px rgba(172,200,162,0.15)', zIndex: -1 }} />
+        style={{ boxShadow: '0 0 40px rgba(192,88,0,0.15)', zIndex: -1 }} />
     </div>
   );
 }

@@ -73,7 +73,7 @@ export const useStore = create<AppState>()(
       addToRecent: (movie) => {
         const { recentlyViewed } = get();
         const filtered = recentlyViewed.filter(m => m.id !== movie.id);
-        set({ recentlyViewed: [movie, ...filtered].slice(0, 20) });
+        set({ recentlyViewed: [movie, ...filtered].slice(0, 100) });
       },
 
       // Comparison

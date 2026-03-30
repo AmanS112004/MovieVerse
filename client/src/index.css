@@ -4,11 +4,13 @@
 @tailwind utilities;
 
 :root {
-  --primary: #ACC8A2;
-  --bg: #1A2517;
-  --glass: rgba(172, 200, 162, 0.06);
-  --glass-border: rgba(172, 200, 162, 0.15);
-  --glass-hover: rgba(172, 200, 162, 0.1);
+  --primary: #FDFBD4;    /* Light Cream - Text & Highlights */
+  --bg: #38240D;         /* Dark Chocolate - Background */
+  --accent: #C05800;      /* Rust - Call to Actions */
+  --secondary: #713600;   /* Milk Chocolate - Borders */
+  --glass: rgba(253, 251, 212, 0.04);
+  --glass-border: rgba(113, 54, 0, 0.2);
+  --glass-hover: rgba(192, 88, 0, 0.08);
 }
 
 * {
@@ -23,8 +25,8 @@ html {
 }
 
 body {
-  background-color: #1A2517;
-  color: #ACC8A2;
+  background-color: #38240D;
+  color: #FDFBD4;
   font-family: 'Inter', system-ui, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
@@ -41,29 +43,29 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(26, 37, 23, 0.5);
+  background: rgba(56, 36, 13, 0.5);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(172, 200, 162, 0.3);
+  background: rgba(192, 88, 0, 0.3);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(172, 200, 162, 0.5);
+  background: rgba(192, 88, 0, 0.5);
 }
 
 /* Glass morphism */
 .glass {
   background: var(--glass);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--glass-border);
 }
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #ACC8A2 0%, rgba(172, 200, 162, 0.6) 100%);
+  background: linear-gradient(135deg, #FDFBD4 0%, #C05800 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -72,18 +74,18 @@ body {
 /* Overlay gradient */
 .overlay-gradient {
   background: linear-gradient(to top,
-      #1A2517 0%,
-      rgba(26, 37, 23, 0.8) 40%,
-      rgba(26, 37, 23, 0.2) 70%,
+      #38240D 0%,
+      rgba(56, 36, 13, 0.9) 40%,
+      rgba(56, 36, 13, 0.3) 70%,
       transparent 100%);
 }
 
 /* Shimmer loading */
 .shimmer {
   background: linear-gradient(90deg,
-      rgba(172, 200, 162, 0.05) 25%,
-      rgba(172, 200, 162, 0.12) 50%,
-      rgba(172, 200, 162, 0.05) 75%);
+      rgba(192, 88, 0, 0.03) 25%,
+      rgba(192, 88, 0, 0.08) 50%,
+      rgba(192, 88, 0, 0.03) 75%);
   background-size: 200% 100%;
   animation: shimmer 2s linear infinite;
 }

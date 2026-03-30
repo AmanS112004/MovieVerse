@@ -35,21 +35,21 @@ export default function VibeChart({ vibe, size = 220 }: VibeChartProps) {
       <ResponsiveContainer width="100%" height="100%">
         <RadarChart data={data} margin={{ top: 10, right: 30, bottom: 10, left: 30 }}>
           <PolarGrid
-            stroke="rgba(172,200,162,0.15)"
+            stroke="rgba(253,251,212,0.1)"
             gridType="polygon"
           />
           <PolarAngleAxis
             dataKey="subject"
-            tick={{ fill: 'rgba(172,200,162,0.7)', fontSize: 11, fontWeight: 600, fontFamily: 'Inter' }}
+            tick={{ fill: 'rgba(253,251,212,0.5)', fontSize: 10, fontWeight: 600, fontFamily: 'Inter' }}
           />
           <Tooltip content={<CustomTooltip />} />
           <Radar
             name="Vibe"
             dataKey="value"
-            stroke="#ACC8A2"
-            fill="rgba(172,200,162,0.2)"
+            stroke="#C05800"
+            fill="rgba(192,88,0,0.2)"
             strokeWidth={2}
-            dot={{ fill: '#ACC8A2', r: 3 }}
+            dot={{ fill: '#FDFBD4', r: 3 }}
           />
         </RadarChart>
       </ResponsiveContainer>

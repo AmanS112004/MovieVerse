@@ -57,13 +57,29 @@ async function getAdvancedSimilar(req, res) {
       cfScores[bid] = (coOccurrence[bid] / maxFreq);
     });
 
-    // 4. FETCH CANDIDATES (TMDB Recommendations + Similar + Mixed)
+    // 4. FETCH CANDIDATES (TMDB Recommendations + Similar + Fallback)
     const [recs, sims] = await Promise.all([
       tmdb(`/${media_type}/${sourceId}/recommendations`),
       tmdb(`/${media_type}/${sourceId}/similar`)
     ]);
     
-    const candidates = [...recs.data.results, ...sims.data.results].slice(0, 50);
+    let candidates = [...recs.data.results, ...sims.data.results];
+    
+    // Genre-based fallback if no results found (Crucial for new/upcoming movies)
+    if (candidates.length === 0) {
+      const genreIds = sourceData.genres?.map(g => g.id).join(',');
+      if (genreIds) {
+        const discoverRes = await tmdb('/discover/movie', { 
+          with_genres: genreIds, 
+          sort_by: 'popularity.desc',
+          'vote_count.gte': 10,
+          page: 1
+        });
+        candidates = discoverRes.data.results;
+      }
+    }
+    
+    candidates = candidates.slice(0, 50);
     // Deduplicate
     const uniqueCandidates = Array.from(new Map(candidates.map(c => [c.id, c])).values())
       .filter(c => c.id !== sourceId);

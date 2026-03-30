@@ -9,7 +9,7 @@ const GROQ_KEY = process.env.GROQ_API_KEY;
 async function getEmbedding(text) {
   if (!GEMINI_KEY) return null;
   try {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent?key=${GEMINI_KEY}`;
+    const url = `https://generativelanguage.googleapis.com/v1/models/text-embedding-004:embedContent?key=${GEMINI_KEY}`;
     const response = await axios.post(url, {
       content: { parts: [{ text }] }
     });
@@ -28,7 +28,7 @@ async function getVibeTags(movie) {
   
   const prompt = `Analyze the movie "${movie.title}" (${movie.release_date || ''}). 
   Overview: ${movie.overview}
-  Keywords: ${movie.keywords?.map(k => k.name).join(', ')}
+  Keywords: ${(movie.keywords?.keywords || movie.keywords?.results || []).map(k => k.name).join(', ')}
   
   Return exactly 5 highly descriptive personality/vibe tags (e.g., "chaotic energy", "dark humor", "slow-burn", "visually stunning", "witty dialogue").
   Format: comma-separated list only.`;

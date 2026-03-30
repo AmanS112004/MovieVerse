@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Film, Bookmark, Scale, User, Menu, X } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import TextRoll from './ui/text-roll';
 import { useStore } from '@/store/useStore';
 import { cn } from '@/lib/utils';
@@ -19,6 +20,8 @@ const navItems = [
 ];
 
 export default function Navbar({ onAuthClick, onDashboardClick, onCompareClick, onCategoryClick }: NavbarProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, compareQueue, bookmarks } = useStore();
@@ -42,9 +45,9 @@ export default function Navbar({ onAuthClick, onDashboardClick, onCompareClick, 
             : 'py-5'
         )}
         style={{
-          background: scrolled ? 'rgba(16,25,14,0.92)' : 'transparent',
+          background: scrolled ? 'rgba(56,36,13,0.95)' : 'transparent',
           backdropFilter: scrolled ? 'blur(20px)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(172,200,162,0.08)' : 'none',
+          borderBottom: scrolled ? '1px solid rgba(253,251,212,0.08)' : 'none',
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
@@ -52,13 +55,20 @@ export default function Navbar({ onAuthClick, onDashboardClick, onCompareClick, 
           <motion.div 
             className="flex items-center gap-2.5 cursor-pointer" 
             whileTap={{ scale: 0.97 }}
-            onClick={() => onCategoryClick('discover')}
+            onClick={() => {
+              if (location.pathname !== '/') {
+                navigate('/');
+              } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                onCategoryClick('discover');
+              }
+            }}
           >
             <div className="w-8 h-8 rounded-xl flex items-center justify-center"
-              style={{ background: 'rgba(172,200,162,0.15)', border: '1px solid rgba(172,200,162,0.2)' }}>
-              <Film className="w-4 h-4 text-[#ACC8A2]" />
+              style={{ background: 'rgba(192, 88, 0, 0.15)', border: '1px solid rgba(192, 88, 0, 0.2)' }}>
+              <Film className="w-4 h-4 text-[#C05800]" />
             </div>
-            <span className="font-black text-lg text-[#ACC8A2] tracking-tight">CineVerse</span>
+            <span className="font-black text-lg text-[#FDFBD4] tracking-tight">CineVerse</span>
           </motion.div>
 
           {/* Desktop Nav */}
@@ -67,10 +77,16 @@ export default function Navbar({ onAuthClick, onDashboardClick, onCompareClick, 
               <div 
                 key={item.id} 
                 className="px-4 py-2 cursor-pointer"
-                onClick={() => onCategoryClick(item.id)}
+                onClick={() => {
+                  if (location.pathname !== '/') {
+                    navigate('/', { state: { scrollTo: 'trending-section' } });
+                  } else {
+                    onCategoryClick(item.id);
+                  }
+                }}
               >
                 <TextRoll
-                  className="text-sm font-semibold text-[rgba(172,200,162,0.7)] dark:text-[rgba(172,200,162,0.7)] hover:text-[#ACC8A2]"
+                  className="text-sm font-semibold text-[rgba(253,251,212,0.7)] dark:text-[rgba(253,251,212,0.7)] hover:text-[#FDFBD4]"
                   center
                 >
                   {item.name}
@@ -85,17 +101,17 @@ export default function Navbar({ onAuthClick, onDashboardClick, onCompareClick, 
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={onCompareClick}
-              className="relative flex items-center gap-2 px-3 py-2.5 rounded-xl transition-all hover:bg-[rgba(172,200,162,0.1)]"
+              className="relative flex items-center gap-2 px-3 py-2.5 rounded-xl transition-all hover:bg-[rgba(253,251,212,0.1)]"
               title="Compare Movies"
             >
-              <Scale className="w-4 h-4 text-[rgba(172,200,162,0.7)]" />
-              <span className="text-sm font-bold text-[rgba(172,200,162,0.8)] hidden lg:block">Compare</span>
+              <Scale className="w-4 h-4 text-[rgba(253,251,212,0.7)]" />
+              <span className="text-sm font-bold text-[rgba(253,251,212,0.8)] hidden lg:block">Compare</span>
               {compareQueue.length > 0 && (
                 <motion.span
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   className="absolute -top-1 -right-1 w-4 h-4 rounded-full text-[9px] font-black flex items-center justify-center"
-                  style={{ background: '#ACC8A2', color: '#1A2517' }}
+                  style={{ background: '#C05800', color: 'white' }}
                 >
                   {compareQueue.length}
                 </motion.span>
@@ -107,16 +123,16 @@ export default function Navbar({ onAuthClick, onDashboardClick, onCompareClick, 
               <motion.button
                 whileTap={{ scale: 0.9 }}
                 onClick={onDashboardClick}
-                className="relative p-2.5 rounded-xl transition-all hover:bg-[rgba(172,200,162,0.1)]"
+                className="relative p-2.5 rounded-xl transition-all hover:bg-[rgba(253,251,212,0.1)]"
                 title="My Library"
               >
-                <Bookmark className="w-4 h-4 text-[rgba(172,200,162,0.7)]" />
+                <Bookmark className="w-4 h-4 text-[rgba(253,251,212,0.7)]" />
                 {bookmarks.length > 0 && (
                   <motion.span
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     className="absolute -top-1 -right-1 w-4 h-4 rounded-full text-[9px] font-black flex items-center justify-center"
-                    style={{ background: '#ACC8A2', color: '#1A2517' }}
+                    style={{ background: '#C05800', color: 'white' }}
                   >
                     {bookmarks.length > 9 ? '9+' : bookmarks.length}
                   </motion.span>
@@ -131,8 +147,8 @@ export default function Navbar({ onAuthClick, onDashboardClick, onCompareClick, 
               className={cn(
                 'flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all',
                 user
-                  ? 'bg-[rgba(172,200,162,0.1)] text-[#ACC8A2] hover:bg-[rgba(172,200,162,0.15)]'
-                  : 'bg-[#ACC8A2] text-[#1A2517] hover:opacity-90'
+                  ? 'bg-[rgba(253,251,212,0.1)] text-[#FDFBD4] hover:bg-[rgba(253,251,212,0.15)]'
+                  : 'bg-[#C05800] text-white hover:opacity-90'
               )}
             >
               <User className="w-4 h-4" />
@@ -142,9 +158,9 @@ export default function Navbar({ onAuthClick, onDashboardClick, onCompareClick, 
             {/* Mobile menu */}
             <button
               onClick={() => setMobileOpen(m => !m)}
-              className="sm:hidden p-2.5 rounded-xl hover:bg-[rgba(172,200,162,0.1)] transition-colors"
+              className="sm:hidden p-2.5 rounded-xl hover:bg-[rgba(253,251,212,0.1)] transition-colors"
             >
-              {mobileOpen ? <X className="w-5 h-5 text-[#ACC8A2]" /> : <Menu className="w-5 h-5 text-[#ACC8A2]" />}
+              {mobileOpen ? <X className="w-5 h-5 text-[#C05800]" /> : <Menu className="w-5 h-5 text-[#C05800]" />}
             </button>
           </div>
         </div>
@@ -158,14 +174,14 @@ export default function Navbar({ onAuthClick, onDashboardClick, onCompareClick, 
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.3 }}
               className="sm:hidden overflow-hidden"
-              style={{ borderTop: '1px solid rgba(172,200,162,0.08)', background: 'rgba(16,25,14,0.95)' }}
+              style={{ borderTop: '1px solid rgba(253,251,212,0.08)', background: 'rgba(56,36,13,0.98)' }}
             >
               <div className="px-4 py-4 flex flex-col gap-2">
                 {navItems.map((item) => (
                   <button
                     key={item.id}
                     onClick={() => { onCategoryClick(item.id); setMobileOpen(false); }}
-                    className="w-full text-left px-4 py-3 rounded-xl text-sm font-semibold text-[rgba(172,200,162,0.7)] hover:bg-[rgba(172,200,162,0.08)] hover:text-[#ACC8A2] transition-all"
+                    className="w-full text-left px-4 py-3 rounded-xl text-sm font-semibold text-[rgba(253,251,212,0.7)] hover:bg-[rgba(253,251,212,0.08)] hover:text-[#FDFBD4] transition-all"
                   >
                     {item.name}
                   </button>

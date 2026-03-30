@@ -42,7 +42,7 @@ router.post('/history', auth, async (req, res) => {
     // Remove old entry, add to front
     user.watchHistory = user.watchHistory.filter(h => h.movieId !== movieId);
     user.watchHistory.unshift({ movieId, viewedAt: new Date() });
-    user.watchHistory = user.watchHistory.slice(0, 50); // Keep last 50
+    user.watchHistory = user.watchHistory.slice(0, 100); // Keep last 100
     await user.save();
     res.json({ success: true });
   } catch (err) {

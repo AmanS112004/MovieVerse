@@ -43,9 +43,9 @@ export function truncate(text: string, length: number) {
 }
 
 export function getRatingColor(rating: number) {
-  if (rating >= 7.5) return '#ACC8A2';
-  if (rating >= 6) return 'rgba(172, 200, 162, 0.7)';
-  return 'rgba(172, 200, 162, 0.4)';
+  if (rating >= 7.5) return '#FDFBD4'; // Cream for high rating
+  if (rating >= 6) return 'rgba(253, 251, 212, 0.7)';
+  return 'rgba(253, 251, 212, 0.4)';
 }
 
 export function debounce<T extends (...args: unknown[]) => unknown>(fn: T, delay: number): (...args: Parameters<T>) => void {
