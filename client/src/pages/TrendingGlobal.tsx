@@ -33,7 +33,7 @@ export default function TrendingGlobal() {
   });
 
   return (
-    <div className="min-h-screen bg-[#38240D] relative">
+    <div className="min-h-screen bg-[#0B0F1A] relative">
       <Navbar
         onAuthClick={() => setAuthModalOpen(true)}
         onDashboardClick={() => { if (user) setDashboardOpen(true); else setAuthModalOpen(true); }}
@@ -46,9 +46,9 @@ export default function TrendingGlobal() {
           <motion.h1 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="text-4xl sm:text-6xl font-black text-[#FDFBD4] tracking-tighter"
+            className="text-4xl sm:text-6xl font-black text-white tracking-tighter"
           >
-            Trending <span className="text-[#C05800] italic">Globally</span>
+            Trending <span className="text-[#E11D48] italic">Globally</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, x: -20 }}

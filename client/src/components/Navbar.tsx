@@ -45,9 +45,9 @@ export default function Navbar({ onAuthClick, onDashboardClick, onCompareClick, 
             : 'py-5'
         )}
         style={{
-          background: scrolled ? 'rgba(56,36,13,0.95)' : 'transparent',
+          background: scrolled ? 'rgba(17,24,39,0.7)' : 'transparent',
           backdropFilter: scrolled ? 'blur(20px)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(253,251,212,0.08)' : 'none',
+          borderBottom: scrolled ? '1px solid rgba(249,250,251,0.05)' : 'none',
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
@@ -64,11 +64,11 @@ export default function Navbar({ onAuthClick, onDashboardClick, onCompareClick, 
               }
             }}
           >
-            <div className="w-8 h-8 rounded-xl flex items-center justify-center"
-              style={{ background: 'rgba(192, 88, 0, 0.15)', border: '1px solid rgba(192, 88, 0, 0.2)' }}>
-              <Film className="w-4 h-4 text-[#C05800]" />
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(225,29,72,0.3)]"
+              style={{ background: 'rgba(225,29,72,0.1)', border: '1px solid rgba(225,29,72,0.3)' }}>
+              <Film className="w-4 h-4 text-[#E11D48]" />
             </div>
-            <span className="font-black text-lg text-[#FDFBD4] tracking-tight">CineVerse</span>
+            <span className="font-black text-lg text-white tracking-tight uppercase">CineVerse</span>
           </motion.div>
 
           {/* Desktop Nav */}
@@ -115,7 +115,7 @@ export default function Navbar({ onAuthClick, onDashboardClick, onCompareClick, 
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   className="absolute -top-1 -right-1 w-4 h-4 rounded-full text-[9px] font-black flex items-center justify-center"
-                  style={{ background: '#C05800', color: 'white' }}
+                  style={{ background: '#E11D48', color: 'white' }}
                 >
                   {compareQueue.length}
                 </motion.span>
@@ -151,8 +151,8 @@ export default function Navbar({ onAuthClick, onDashboardClick, onCompareClick, 
               className={cn(
                 'flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all',
                 user
-                  ? 'bg-[rgba(253,251,212,0.1)] text-[#FDFBD4] hover:bg-[rgba(253,251,212,0.15)]'
-                  : 'bg-[#C05800] text-white hover:opacity-90'
+                  ? 'bg-white/10 text-white hover:bg-white/20'
+                  : 'bg-[#E11D48] text-white hover:bg-[#F43F5E] shadow-[0_0_20px_rgba(225,29,72,0.4)]'
               )}
             >
               <User className="w-4 h-4" />
@@ -162,9 +162,9 @@ export default function Navbar({ onAuthClick, onDashboardClick, onCompareClick, 
             {/* Mobile menu */}
             <button
               onClick={() => setMobileOpen(m => !m)}
-              className="sm:hidden p-2.5 rounded-xl hover:bg-[rgba(253,251,212,0.1)] transition-colors"
+              className="sm:hidden p-2.5 rounded-xl hover:bg-white/10 transition-colors"
             >
-              {mobileOpen ? <X className="w-5 h-5 text-[#C05800]" /> : <Menu className="w-5 h-5 text-[#C05800]" />}
+              {mobileOpen ? <X className="w-5 h-5 text-[#E11D48]" /> : <Menu className="w-5 h-5 text-[#E11D48]" />}
             </button>
           </div>
         </div>
@@ -178,7 +178,7 @@ export default function Navbar({ onAuthClick, onDashboardClick, onCompareClick, 
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.3 }}
               className="sm:hidden overflow-hidden"
-              style={{ borderTop: '1px solid rgba(253,251,212,0.08)', background: 'rgba(56,36,13,0.98)' }}
+              style={{ borderTop: '1px solid rgba(255,255,255,0.05)', background: '#111827' }}
             >
               <div className="px-4 py-4 flex flex-col gap-2">
                 {navItems.map((item) => (

@@ -5,13 +5,14 @@ import type { VibeScores } from '@/types';
 interface VibeChartProps {
   vibe: VibeScores;
   size?: number;
+  color?: string;
 }
 
 const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: unknown[] }) => {
   if (active && payload && (payload as Array<{ value: number; payload: { subject: string } }>).length) {
     const p = (payload as Array<{ value: number; payload: { subject: string } }>)[0];
     return (
-      <div className="glass px-3 py-2 rounded-lg text-xs font-medium text-[#ACC8A2]">
+      <div className="bg-[#111827] border border-white/10 px-3 py-2 rounded-lg text-xs font-black text-white shadow-2xl backdrop-blur-md">
         {p.payload.subject}: {p.value}/10
       </div>
     );
@@ -19,7 +20,7 @@ const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: unknow
   return null;
 };
 
-export default function VibeChart({ vibe, size = 220 }: VibeChartProps) {
+export default function VibeChart({ vibe, size = 220, color = "#E11D48" }: VibeChartProps) {
   const data = [
     { subject: 'Action', value: vibe.action || 0 },
     { subject: 'Comedy', value: vibe.comedy || 0 },
@@ -35,21 +36,22 @@ export default function VibeChart({ vibe, size = 220 }: VibeChartProps) {
       <ResponsiveContainer width="100%" height="100%">
         <RadarChart data={data} margin={{ top: 10, right: 30, bottom: 10, left: 30 }}>
           <PolarGrid
-            stroke="rgba(253,251,212,0.1)"
+            stroke="rgba(255,255,255,0.05)"
             gridType="polygon"
           />
           <PolarAngleAxis
             dataKey="subject"
-            tick={{ fill: 'rgba(253,251,212,0.5)', fontSize: 10, fontWeight: 600, fontFamily: 'Inter' }}
+            tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 9, fontWeight: 800, fontFamily: 'Inter', letterSpacing: '0.1em' }}
           />
           <Tooltip content={<CustomTooltip />} />
           <Radar
             name="Vibe"
             dataKey="value"
-            stroke="#C05800"
-            fill="rgba(192,88,0,0.2)"
+            stroke={color}
+            fill={color}
+            fillOpacity={0.15}
             strokeWidth={2}
-            dot={{ fill: '#FDFBD4', r: 3 }}
+            dot={{ fill: color, r: 3, strokeWidth: 2, stroke: '#111827' }}
           />
         </RadarChart>
       </ResponsiveContainer>

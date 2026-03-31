@@ -76,7 +76,7 @@ export default function Home() {
 
 
   return (
-    <div className="min-h-screen bg-[#38240D] relative">
+    <div className="min-h-screen bg-[#0B0F1A] relative">
       {/* Navbar */}
       <Navbar
         onAuthClick={() => setAuthModalOpen(true)}
@@ -106,11 +106,11 @@ export default function Home() {
         <div className="sticky top-0 h-screen flex flex-col items-center justify-center px-4">
 
           {/* Gradient orbs */}
-          <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full pointer-events-none"
-            style={{ background: 'radial-gradient(circle, rgba(192,88,0,0.06) 0%, transparent 70%)', transform: 'translate(-50%, -50%)' }} />
+          <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full pointer-events-none opacity-20"
+            style={{ background: 'radial-gradient(circle, #E11D48 0%, transparent 70%)', transform: 'translate(-50%, -50%)' }} />
 
-          <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full pointer-events-none"
-            style={{ background: 'radial-gradient(circle, rgba(253,251,212,0.04) 0%, transparent 70%)', transform: 'translate(50%, 50%)' }} />
+          <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full pointer-events-none opacity-10"
+            style={{ background: 'radial-gradient(circle, #2563EB 0%, transparent 70%)', transform: 'translate(50%, 50%)' }} />
 
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -128,7 +128,8 @@ export default function Home() {
             </div>
 
             {/* Title */}
-            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black text-[#C05800] mb-4">
+            <h1 className="text-5xl sm:text-7xl lg:text-9xl font-black mb-4 tracking-tighter"
+              style={{ background: 'linear-gradient(135deg, #E11D48 0%, #2563EB 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               CINEVERSE
             </h1>
 

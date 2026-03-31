@@ -44,18 +44,18 @@ export default function CreateCollectionModal({ onClose }: CreateCollectionModal
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 20 }}
-        className="relative w-full max-w-md overflow-hidden rounded-3xl border border-[rgba(253,251,212,0.1)] bg-[rgba(56,36,13,0.95)] p-8 shadow-2xl backdrop-blur-xl"
+        className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/10 bg-[#111827]/95 p-8 shadow-2xl backdrop-blur-xl"
       >
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#C05800]/20 border border-[#C05800]/20">
-              <FolderPlus className="h-5 w-5 text-[#C05800]" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#E11D48]/20 border border-[#E11D48]/20">
+              <FolderPlus className="h-5 w-5 text-[#E11D48]" />
             </div>
-            <h2 className="text-xl font-black text-[#FDFBD4] uppercase tracking-wider">New Collection</h2>
+            <h2 className="text-xl font-black text-white uppercase tracking-wider">New Collection</h2>
           </div>
           <button
             onClick={onClose}
-            className="rounded-full p-2 text-[rgba(253,251,212,0.4)] hover:bg-[rgba(253,251,212,0.1)] hover:text-[#FDFBD4] transition-colors"
+            className="rounded-full p-2 text-gray-500 hover:bg-white/10 hover:text-white transition-colors"
           >
             <X className="h-5 w-5" />
           </button>
@@ -63,7 +63,7 @@ export default function CreateCollectionModal({ onClose }: CreateCollectionModal
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-[rgba(253,251,212,0.5)]">
+            <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-gray-500">
               Collection Name
             </label>
             <input
@@ -72,20 +72,20 @@ export default function CreateCollectionModal({ onClose }: CreateCollectionModal
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Weekend Chill, Sci-Fi Gems..."
-              className="w-full rounded-2xl border border-[rgba(253,251,212,0.1)] bg-[rgba(253,251,212,0.05)] px-4 py-3 text-sm font-semibold text-[#FDFBD4] placeholder:text-[rgba(253,251,212,0.2)] focus:border-[#C05800]/50 focus:outline-none focus:ring-1 focus:ring-[#C05800]/50"
+              className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-white placeholder:text-gray-600 focus:border-[#E11D48]/50 focus:outline-none focus:ring-1 focus:ring-[#E11D48]/50"
               required
             />
           </div>
 
           <div>
-            <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-[rgba(253,251,212,0.5)]">
+            <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-gray-500">
               Description (Optional)
             </label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Tell us what this collection is about..."
-              className="min-h-[100px] w-full resize-none rounded-2xl border border-[rgba(253,251,212,0.1)] bg-[rgba(253,251,212,0.05)] px-4 py-3 text-sm font-semibold text-[#FDFBD4] placeholder:text-[rgba(253,251,212,0.2)] focus:border-[#C05800]/50 focus:outline-none focus:ring-1 focus:ring-[#C05800]/50"
+              className="min-h-[100px] w-full resize-none rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-white placeholder:text-gray-600 focus:border-[#E11D48]/50 focus:outline-none focus:ring-1 focus:ring-[#E11D48]/50"
             />
           </div>
 
@@ -98,7 +98,7 @@ export default function CreateCollectionModal({ onClose }: CreateCollectionModal
           <button
             type="submit"
             disabled={loading || !name.trim()}
-            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#C05800] py-4 text-sm font-black text-white shadow-lg transition-all hover:opacity-90 disabled:opacity-50"
+            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#E11D48] py-4 text-sm font-black text-white shadow-lg transition-all hover:opacity-90 disabled:opacity-50"
           >
             {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : 'Create Collection'}
           </button>

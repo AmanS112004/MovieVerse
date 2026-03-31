@@ -4,13 +4,31 @@
 @tailwind utilities;
 
 :root {
-  --primary: #FDFBD4;    /* Light Cream - Text & Highlights */
-  --bg: #38240D;         /* Dark Chocolate - Background */
-  --accent: #C05800;      /* Rust - Call to Actions */
-  --secondary: #713600;   /* Milk Chocolate - Borders */
-  --glass: rgba(253, 251, 212, 0.04);
-  --glass-border: rgba(113, 54, 0, 0.2);
-  --glass-hover: rgba(192, 88, 0, 0.08);
+  /* 🖤 Base & Backgrounds */
+  --bg: #0B0F1A;         /* Deep navy black (main background) */
+  --card-bg: #111827;    /* Secondary dark (cards, navbar) */
+  
+  /* 🔴 Primary Accent (Spider-Man Red) */
+  --primary: #E11D48;    /* Main accent (buttons, highlights) */
+  --primary-glow: rgba(225, 29, 72, 0.3);
+  --primary-hover: #F43F5E;
+  
+  /* 🔵 Secondary Accent (Spider-Man Blue) */
+  --secondary: #2563EB;  /* Secondary highlight */
+  --secondary-hover: #3B82F6;
+  
+  /* ⚪ Text Colors */
+  --text-primary: #F9FAFB;
+  --text-secondary: #9CA3AF;
+  --text-muted: #6B7280;
+  
+  /* 🟡 Optional Highlight (ratings) */
+  --rating: #F59E0B;
+  
+  /* ✨ Glass effects */
+  --glass: rgba(17, 24, 39, 0.7);
+  --glass-border: rgba(249, 250, 251, 0.1);
+  --glass-hover: rgba(249, 250, 251, 0.15);
 }
 
 * {
@@ -25,8 +43,8 @@ html {
 }
 
 body {
-  background-color: #38240D;
-  color: #FDFBD4;
+  background-color: var(--bg);
+  color: var(--text-primary);
   font-family: 'Inter', system-ui, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
@@ -43,16 +61,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(56, 36, 13, 0.5);
+  background: var(--bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(192, 88, 0, 0.3);
+  background: var(--secondary);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(192, 88, 0, 0.5);
+  background: var(--secondary-hover);
 }
 
 /* Glass morphism */
@@ -65,7 +83,7 @@ body {
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #FDFBD4 0%, #C05800 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -74,18 +92,18 @@ body {
 /* Overlay gradient */
 .overlay-gradient {
   background: linear-gradient(to top,
-      #38240D 0%,
-      rgba(56, 36, 13, 0.9) 40%,
-      rgba(56, 36, 13, 0.3) 70%,
+      var(--bg) 0%,
+      rgba(11, 15, 26, 0.95) 40%,
+      rgba(11, 15, 26, 0.6) 70%,
       transparent 100%);
 }
 
 /* Shimmer loading */
 .shimmer {
   background: linear-gradient(90deg,
-      rgba(192, 88, 0, 0.03) 25%,
-      rgba(192, 88, 0, 0.08) 50%,
-      rgba(192, 88, 0, 0.03) 75%);
+      rgba(37, 99, 235, 0.03) 25%,
+      rgba(37, 99, 235, 0.08) 50%,
+      rgba(37, 99, 235, 0.03) 75%);
   background-size: 200% 100%;
   animation: shimmer 2s linear infinite;
 }
@@ -102,12 +120,9 @@ body {
 
 /* Float animation */
 @keyframes float {
-
-  0%,
-  100% {
+  0%, 100% {
     transform: translateY(0px);
   }
-
   50% {
     transform: translateY(-15px);
   }
@@ -123,12 +138,12 @@ body {
 
 /* Selection */
 ::selection {
-  background: rgba(172, 200, 162, 0.3);
-  color: #ACC8A2;
+  background: var(--primary);
+  color: white;
 }
 
 /* Input placeholder */
 input::placeholder,
 textarea::placeholder {
-  color: rgba(172, 200, 162, 0.4);
+  color: var(--text-muted);
 }

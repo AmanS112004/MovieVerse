@@ -118,7 +118,7 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4"
         onClick={e => { if (e.target === e.currentTarget) onClose(); }}
-        style={{ background: 'rgba(26,15,5,0.85)', backdropFilter: 'blur(8px)' }}
+        style={{ background: 'rgba(11,15,26,0.85)', backdropFilter: 'blur(8px)' }}
       >
         <motion.div
           initial={{ y: 60, opacity: 0, scale: 0.97 }}
@@ -127,9 +127,9 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
           transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
           className="relative w-full max-w-4xl max-h-[95vh] overflow-hidden rounded-t-3xl sm:rounded-3xl"
           style={{
-            background: '#38240D',
-            border: '1px solid rgba(253,251,212,0.12)',
-            boxShadow: '0 40px 120px rgba(0,0,0,0.8), 0 0 0 1px rgba(253,251,212,0.06)',
+            background: '#111827',
+            border: '1px solid rgba(255,255,255,0.1)',
+            boxShadow: '0 40px 120px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.05)',
           }}
           onClick={e => e.stopPropagation()}
         >
@@ -154,7 +154,7 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
               <img src={backdropUrl} alt={title} className="w-full h-full object-cover" />
             )}
             <div className="absolute inset-0 overlay-gradient" />
-            <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(56,36,13,0.8) 0%, transparent 60%)' }} />
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(17,24,39,0.8) 0%, transparent 60%)' }} />
 
             {/* Close */}
             {/* Trailer button - Centered hit area */}
@@ -169,7 +169,7 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setShowTrailer(true)}
                   className="flex items-center gap-3 px-6 py-3 rounded-2xl font-bold text-white text-lg shadow-2xl transition-all"
-                  style={{ background: '#C05800', boxShadow: '0 0 40px rgba(192,88,0,0.4)' }}
+                  style={{ background: '#E11D48', boxShadow: '0 0 40px rgba(225,29,72,0.4)' }}
                 >
                   <Play className="w-6 h-6 fill-current" />
                   Watch Trailer
@@ -182,10 +182,10 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={onClose}
-              className="absolute top-4 right-4 p-2.5 rounded-full backdrop-blur-md z-50 transition-all hover:bg-[rgba(253,251,212,0.1)]"
-              style={{ background: 'rgba(56,36,13,0.8)', border: '1px solid rgba(253,251,212,0.2)' }}
+              className="absolute top-4 right-4 p-2.5 rounded-full backdrop-blur-md z-50 transition-all hover:bg-white/10"
+              style={{ background: 'rgba(11,15,26,0.8)', border: '1px solid rgba(255,255,255,0.2)' }}
             >
-              <X className="w-5 h-5 text-[#FDFBD4]" />
+              <X className="w-5 h-5 text-white" />
             </motion.button>
           </div>
 
@@ -221,7 +221,7 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
             <div className="flex gap-4 sm:gap-6 p-4 sm:p-6">
               {/* Poster */}
               <div className="hidden sm:flex flex-shrink-0">
-                <div className="w-32 h-48 rounded-xl overflow-hidden -mt-16 relative z-10 shadow-2xl border border-[rgba(253,251,212,0.15)]">
+                <div className="w-32 h-48 rounded-xl overflow-hidden -mt-16 relative z-10 shadow-2xl border border-white/10">
                   <img src={posterUrl} alt={title} className="w-full h-full object-cover" />
                 </div>
               </div>
@@ -230,9 +230,9 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-[#FDFBD4] leading-tight">{title}</h1>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-white leading-tight">{title}</h1>
                     {detail?.tagline && (
-                      <p className="text-sm text-[rgba(253,251,212,0.5)] italic mt-1">"{detail.tagline}"</p>
+                      <p className="text-sm text-gray-400 italic mt-1">"{detail.tagline}"</p>
                     )}
                   </div>
                   <div className="flex gap-2 flex-shrink-0">
@@ -246,7 +246,7 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
                         }
                       }}
                       className={cn('p-2.5 rounded-xl transition-all',
-                        showCollections ? 'bg-[#C05800] text-white' : 'bg-[rgba(253,251,212,0.05)] text-[#FDFBD4] hover:bg-[rgba(253,251,212,0.1)]'
+                        showCollections ? 'bg-[#E11D48] text-white' : 'bg-white/5 text-gray-300 hover:bg-white/10'
                       )}
                       title="Add to Collection"
                     >
@@ -262,7 +262,7 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
                         }
                       }}
                       className={cn('p-2.5 rounded-xl transition-all flex-shrink-0',
-                        bookmarked ? 'bg-[#C05800] text-white' : 'bg-[rgba(253,251,212,0.05)] text-[#FDFBD4] hover:bg-[rgba(253,251,212,0.1)]'
+                        bookmarked ? 'bg-[#E11D48] text-white' : 'bg-white/5 text-gray-300 hover:bg-white/10'
                       )}
                     >
                       {bookmarked ? <BookmarkCheck className="w-5 h-5" /> : <Bookmark className="w-5 h-5" />}
@@ -273,19 +273,19 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
                 {/* Meta row */}
                 <div className="flex flex-wrap items-center gap-3 mt-3">
                   {year && (
-                    <div className="flex items-center gap-1.5 text-sm text-[rgba(253,251,212,0.6)]">
+                    <div className="flex items-center gap-1.5 text-sm text-gray-400">
                       <Calendar className="w-4 h-4" />
                       {year}
                     </div>
                   )}
                   {detail?.runtime && (
-                    <div className="flex items-center gap-1.5 text-sm text-[rgba(253,251,212,0.6)]">
+                    <div className="flex items-center gap-1.5 text-sm text-gray-400">
                       <Clock className="w-4 h-4" />
                       {formatRuntime(detail.runtime)}
                     </div>
                   )}
                   {detail?.original_language && (
-                    <div className="flex items-center gap-1.5 text-sm text-[rgba(253,251,212,0.6)]">
+                    <div className="flex items-center gap-1.5 text-sm text-gray-400">
                       <Globe className="w-4 h-4" />
                       {detail.original_language.toUpperCase()}
                     </div>
@@ -295,13 +295,13 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
                 {/* Genres & Vibe Tags */}
                 <div className="flex flex-wrap gap-2 mt-3">
                   {detail?.genres?.map(g => (
-                    <div className="glass px-3 py-2 rounded-lg text-xs font-medium text-[#FDFBD4]">
+                    <div className="bg-white/5 border border-white/10 px-3 py-2 rounded-lg text-xs font-black text-gray-300 uppercase tracking-widest">
                       {g.name}
                     </div>
                   ))}
                   {movie.vibe_tags?.map((tag, i) => (
                     <span key={i} className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-tighter"
-                      style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#FDFBD4' }}>
+                      style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }}>
                       #{tag.replace(/\s+/g, '-')}
                     </span>
                   ))}
@@ -312,17 +312,17 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
                   <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="mt-5 p-4 rounded-2xl border border-[#C05800]/20 relative overflow-hidden group"
-                    style={{ background: 'linear-gradient(135deg, rgba(113,54,0,0.1) 0%, transparent 100%)' }}
+                    className="mt-5 p-4 rounded-2xl border border-[#E11D48]/20 relative overflow-hidden group"
+                    style={{ background: 'linear-gradient(135deg, rgba(225,29,72,0.1) 0%, transparent 100%)' }}
                   >
                     <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
-                      <Sparkles className="w-8 h-8 text-[#C05800]" />
+                      <Sparkles className="w-8 h-8 text-[#E11D48]" />
                     </div>
                     <div className="flex items-center gap-2 mb-2">
-                       <div className="px-1.5 py-0.5 rounded bg-[#C05800] text-white text-[10px] font-black uppercase">AI Match</div>
-                       <span className="text-xs font-black text-[#C05800] uppercase tracking-widest">{movie.similarity_score}% Similar Vibe</span>
+                       <div className="px-1.5 py-0.5 rounded bg-[#E11D48] text-white text-[10px] font-black uppercase">AI Match</div>
+                       <span className="text-xs font-black text-[#E11D48] uppercase tracking-widest">{movie.similarity_score}% Similar Vibe</span>
                     </div>
-                    <p className="text-sm text-[rgba(253,251,212,0.8)] font-medium leading-relaxed italic">
+                    <p className="text-sm text-gray-200 font-medium leading-relaxed italic">
                       "{movie.reason}"
                     </p>
                   </motion.div>
@@ -331,24 +331,24 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
                 {/* Ratings */}
                 <div className="flex gap-4 mt-4">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-[#FDFBD4]">{tmdbRating?.toFixed(1) || 'N/A'}</div>
-                    <div className="text-xs text-[rgba(253,251,212,0.5)] mt-0.5">TMDB</div>
+                    <div className="text-2xl font-black text-white">{tmdbRating?.toFixed(1) || 'N/A'}</div>
+                    <div className="text-xs text-gray-500 mt-0.5 uppercase tracking-tighter">TMDB</div>
                   </div>
                   {imdbRating && imdbRating !== 'N/A' && (
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-[#FDFBD4]">{imdbRating}</div>
-                      <div className="text-xs text-[rgba(253,251,212,0.5)] mt-0.5">IMDb</div>
+                      <div className="text-2xl font-black text-white">{imdbRating}</div>
+                      <div className="text-xs text-gray-500 mt-0.5 uppercase tracking-tighter">IMDb</div>
                     </div>
                   )}
                   {detail?.omdb?.Metascore && detail.omdb.Metascore !== 'N/A' && (
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-[#FDFBD4]">{detail.omdb.Metascore}</div>
-                      <div className="text-xs text-[rgba(253,251,212,0.5)] mt-0.5">Meta</div>
+                      <div className="text-2xl font-black text-white">{detail.omdb.Metascore}</div>
+                      <div className="text-xs text-gray-500 mt-0.5 uppercase tracking-tighter">Meta</div>
                     </div>
                   )}
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-[#FDFBD4]">{Math.round(detail?.popularity || movie.popularity || 0)}</div>
-                    <div className="text-xs text-[rgba(253,251,212,0.5)] mt-0.5">Popularity</div>
+                    <div className="text-2xl font-black text-white">{Math.round(detail?.popularity || movie.popularity || 0)}</div>
+                    <div className="text-xs text-gray-500 mt-0.5 uppercase tracking-tighter font-black">Popularity</div>
                   </div>
                 </div>
               </div>
@@ -356,16 +356,16 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
 
             {/* Tabs */}
             <div className="px-4 sm:px-6">
-              <div className="flex gap-1 p-1 rounded-xl mb-5" style={{ background: 'rgba(253,251,212,0.05)' }}>
+              <div className="flex gap-1 p-1 rounded-xl mb-5" style={{ background: 'rgba(255,255,255,0.05)' }}>
                 {tabs.map(tab => (
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
                     className={cn(
-                      'flex-1 py-2 px-3 rounded-lg text-xs sm:text-sm font-semibold transition-all',
+                      'flex-1 py-1 px-3 rounded-lg text-[10px] sm:text-xs font-black transition-all uppercase tracking-widest',
                       activeTab === tab.id
-                        ? 'bg-[rgba(192,88,0,0.15)] text-[#FDFBD4] shadow-sm'
-                        : 'text-[rgba(253,251,212,0.5)] hover:text-[rgba(253,251,212,0.7)]'
+                        ? 'bg-[#E11D48] text-white shadow-lg'
+                        : 'text-gray-500 hover:text-gray-300'
                     )}
                   >
                     {tab.label}
@@ -391,27 +391,27 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
                     {/* OVERVIEW */}
                     {activeTab === 'overview' && (
                       <div className="space-y-5">
-                        <p className="text-[rgba(253,251,212,0.7)] leading-relaxed text-sm sm:text-base">
+                        <p className="text-gray-400 leading-relaxed text-sm sm:text-base font-medium">
                           {detail?.overview || movie.overview || 'No description available.'}
                         </p>
                         {director && (
-                          <div className="p-3 rounded-xl" style={{ background: 'rgba(253,251,212,0.05)' }}>
-                            <div className="text-xs text-[rgba(253,251,212,0.4)] mb-0.5">Director</div>
-                            <div className="font-semibold text-[#FDFBD4]">{director.name}</div>
+                          <div className="p-3 rounded-xl border border-white/5 bg-white/5">
+                            <div className="text-[10px] text-gray-600 mb-0.5 uppercase font-black">Director</div>
+                            <div className="font-bold text-white uppercase tracking-tighter">{director.name}</div>
                           </div>
                         )}
                         {writers.length > 0 && (
-                          <div className="p-3 rounded-xl" style={{ background: 'rgba(253,251,212,0.05)' }}>
-                            <div className="text-xs text-[rgba(253,251,212,0.4)] mb-1">Writers</div>
-                            <div className="font-semibold text-[#FDFBD4]">{writers.map(w => w.name).join(', ')}</div>
+                          <div className="p-3 rounded-xl border border-white/5 bg-white/5">
+                            <div className="text-[10px] text-gray-600 mb-1 uppercase font-black">Writers</div>
+                            <div className="font-bold text-white uppercase tracking-tighter">{writers.map(w => w.name).join(', ')}</div>
                           </div>
                         )}
                         {detail?.omdb?.Awards && detail.omdb.Awards !== 'N/A' && (
-                          <div className="flex items-start gap-2 p-3 rounded-xl" style={{ background: 'rgba(253,251,212,0.05)' }}>
-                            <Award className="w-4 h-4 text-[#FDFBD4] flex-shrink-0 mt-0.5" />
+                          <div className="flex items-start gap-4 p-4 rounded-xl border border-white/5 bg-white/5">
+                            <Award className="w-5 h-5 text-[#E11D48] flex-shrink-0 mt-0.5" />
                             <div>
-                               <div className="text-xs text-[rgba(253,251,212,0.5)] mb-0.5">Awards</div>
-                               <div className="text-sm text-[rgba(253,251,212,0.8)]">{detail.omdb.Awards}</div>
+                               <div className="text-[10px] text-gray-600 mb-0.5 uppercase font-black">Awards</div>
+                               <div className="text-sm text-gray-300 font-bold italic">"{detail.omdb.Awards}"</div>
                             </div>
                           </div>
                         )}
@@ -421,18 +421,17 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
                     {/* CAST & CREW */}
                     {activeTab === 'cast' && (
                       <div>
-                        <h3 className="text-sm font-bold text-[rgba(253,251,212,0.6)] uppercase tracking-wider mb-3">Cast</h3>
+                        <h3 className="text-[10px] font-black text-gray-600 uppercase tracking-widest mb-4">Leading Talent</h3>
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                           {topCast.map((member: CastMember) => (
                             <motion.div
                               key={member.id}
-                              whileHover={{ scale: 1.03 }}
+                              whileHover={{ scale: 1.03, y: -2 }}
                               whileTap={{ scale: 0.97 }}
                               onClick={() => onCastClick(member.id)}
-                              className="flex flex-col items-center gap-2 p-3 rounded-xl cursor-pointer transition-all"
-                              style={{ background: 'rgba(253,251,212,0.05)', border: '1px solid rgba(253,251,212,0.08)' }}
+                              className="flex flex-col items-center gap-2 p-3 rounded-xl cursor-pointer transition-all border border-white/5 bg-white/5 hover:border-[#E11D48]/30 group"
                             >
-                              <div className="w-14 h-14 rounded-full overflow-hidden bg-[rgba(253,251,212,0.1)] border border-[rgba(253,251,212,0.15)]">
+                              <div className="w-14 h-14 rounded-full overflow-hidden bg-white/5 border border-white/10 group-hover:border-[#E11D48]/50">
                                 {member.profile_path ? (
                                   <img src={`https://image.tmdb.org/t/p/w185${member.profile_path}`} alt={member.name} className="w-full h-full object-cover" loading="lazy" />
                                 ) : (
@@ -440,9 +439,9 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
                                 )}
                               </div>
                               <div className="text-center">
-                                <div className="text-xs font-semibold text-[#FDFBD4] line-clamp-1">{member.name}</div>
+                                <div className="text-xs font-black text-white uppercase tracking-tighter line-clamp-1">{member.name}</div>
                                 {member.character && (
-                                  <div className="text-xs text-[rgba(253,251,212,0.4)] line-clamp-1 mt-0.5">{member.character}</div>
+                                  <div className="text-[10px] text-gray-500 font-bold line-clamp-1 mt-0.5 uppercase">{member.character}</div>
                                 )}
                               </div>
                             </motion.div>
@@ -461,10 +460,10 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
                               key={r.code}
                               onClick={() => setWatchRegion(r.code)}
                               className={cn(
-                                'px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all uppercase tracking-wider',
+                                'px-4 py-2 rounded-xl text-[10px] font-black whitespace-nowrap transition-all uppercase tracking-widest',
                                 watchRegion === r.code
-                                  ? 'bg-[rgba(192,88,0,0.2)] text-[#FDFBD4] border border-[rgba(192,88,0,0.4)]'
-                                  : 'text-[rgba(253,251,212,0.4)] bg-[rgba(253,251,212,0.05)] hover:bg-[rgba(253,251,212,0.08)]'
+                                  ? 'bg-[#E11D48] text-white border border-[#E11D48]/20 shadow-lg'
+                                  : 'text-gray-500 bg-white/5 hover:bg-white/10 hover:text-gray-300'
                               )}
                             >
                               {r.label}
@@ -474,22 +473,22 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
 
                         {/* Enhanced Streaming (RapidAPI) */}
                         {streams.length > 0 && (
-                          <div className="p-4 rounded-2xl border border-[rgba(253,251,212,0.1)] mb-6" style={{ background: 'rgba(253,251,212,0.03)' }}>
+                          <div className="p-4 rounded-2xl border border-white/10 mb-6 bg-white/5">
                              <div className="flex items-center gap-2 mb-4">
-                               <Sparkles className="w-4 h-4 text-[#FDFBD4]" />
-                               <span className="text-xs font-black text-[#FDFBD4] uppercase tracking-widest">Premium Streaming Info</span>
+                               <Sparkles className="w-4 h-4 text-[#E11D48]" />
+                               <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Premium Streaming Info</span>
                              </div>
                              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                                {streams.map((s: any, idx: number) => (
                                  <a key={idx} href={s.link} target="_blank" rel="noopener noreferrer" 
-                                   className="flex items-center gap-3 p-2 rounded-xl hover:bg-[rgba(253,251,212,0.1)] transition-all group">
+                                   className="flex items-center gap-3 p-2 rounded-xl hover:bg-white/10 transition-all group">
                                    <div className="w-10 h-10 rounded-lg overflow-hidden bg-white/10 flex items-center justify-center p-1">
                                       {/* Try to show service icon, fallback to text logo if needed */}
-                                      <div className="text-[10px] font-black text-[#FDFBD4] uppercase">{s.service}</div>
+                                      <div className="text-[10px] font-black text-white uppercase">{s.service}</div>
                                    </div>
                                    <div>
-                                      <div className="text-[11px] font-bold text-[#FDFBD4] capitalize">{s.service}</div>
-                                      <div className="text-[9px] text-[rgba(253,251,212,0.5)] uppercase font-black">{s.streamingType}</div>
+                                      <div className="text-[11px] font-bold text-white capitalize">{s.service}</div>
+                                      <div className="text-[9px] text-gray-500 uppercase font-black">{s.streamingType}</div>
                                    </div>
                                  </a>
                                ))}
@@ -501,14 +500,14 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
                           <div>
                             {watchProviderRegion?.flatrate && watchProviderRegion.flatrate.length > 0 && (
                               <div className="mb-4">
-                                <div className="text-xs text-[rgba(253,251,212,0.5)] mb-2 font-semibold uppercase tracking-wide">Stream</div>
-                                <div className="flex flex-wrap gap-3">
+                                <div className="text-[10px] text-gray-600 mb-2 font-black uppercase tracking-widest leading-none">Stream (Standard)</div>
+                                <div className="flex flex-wrap gap-4">
                                   {watchProviderRegion.flatrate.map(p => (
-                                    <div key={p.provider_id} className="flex flex-col items-center gap-1.5">
-                                     <div className="w-12 h-12 rounded-xl overflow-hidden border border-[rgba(253,251,212,0.15)]">
+                                    <div key={p.provider_id} className="flex flex-col items-center gap-2">
+                                     <div className="w-12 h-12 rounded-xl overflow-hidden border border-white/10 shadow-2xl transition-transform hover:scale-110">
                                         <img src={`${OTT_LOGO}${p.logo_path}`} alt={p.provider_name} className="w-full h-full object-cover" />
                                       </div>
-                                      <span className="text-[10px] text-[rgba(253,251,212,0.6)] text-center w-16 truncate font-medium">{p.provider_name}</span>
+                                      <span className="text-[9px] text-gray-500 text-center w-16 truncate font-black uppercase tracking-tighter">{p.provider_name}</span>
                                     </div>
                                   ))}
                                 </div>
@@ -516,9 +515,9 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
                             )}
                             {watchProviderRegion?.link && (
                               <a href={watchProviderRegion.link} target="_blank" rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 text-xs text-[rgba(253,251,212,0.5)] hover:text-[#FDFBD4] transition-colors mt-2">
+                                className="inline-flex items-center gap-2 text-xs text-gray-500 hover:text-white transition-colors mt-2">
                                 <ExternalLink className="w-3.5 h-3.5" />
-                                More details on TMDB
+                                Full TMDB Provider List
                               </a>
                             )}
                           </div>
@@ -534,13 +533,13 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
                     {/* VIBE CHART */}
                     {activeTab === 'vibe' && detail?.vibe && (
                       <div className="flex flex-col items-center">
-                        <p className="text-xs text-[rgba(253,251,212,0.5)] mb-6 text-center uppercase tracking-widest font-black">Atmospheric Signature</p>
+                        <p className="text-[10px] text-gray-600 mb-8 text-center uppercase tracking-[0.3em] font-black">Atmospheric Signature</p>
                         <VibeChart vibe={detail.vibe} size={250} />
-                        <div className="grid grid-cols-5 gap-2 mt-8 w-full px-4">
+                        <div className="grid grid-cols-5 gap-2 mt-10 w-full px-4">
                           {Object.entries(detail.vibe).map(([key, val]) => (
-                            <div key={key} className="text-center p-3 rounded-2xl" style={{ background: 'rgba(253,251,212,0.04)', border: '1px solid rgba(253,251,212,0.06)' }}>
-                              <div className="text-xl font-black text-[#FDFBD4]">{val}</div>
-                              <div className="text-[9px] text-[rgba(253,251,212,0.4)] uppercase font-black tracking-tighter mt-1">{key}</div>
+                            <div key={key} className="text-center p-3 rounded-2xl border border-white/5 bg-white/5">
+                              <div className="text-xl font-black text-white">{val}</div>
+                              <div className="text-[9px] text-gray-600 uppercase font-black tracking-tighter mt-1">{key}</div>
                             </div>
                           ))}
                         </div>
@@ -571,9 +570,9 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
                                       <span className="text-sm font-black text-[#FDFBD4]">{rev.author}</span>
                                    </div>
                                    {rev.author_details?.rating && (
-                                     <div className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-[#C05800]/10 border border-[#C05800]/20">
-                                       <Star className="w-3 h-3 text-[#C05800] fill-current" />
-                                       <span className="text-xs font-black text-[#C05800]">{rev.author_details.rating}</span>
+                                     <div className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-[#E11D48]/10 border border-[#E11D48]/20">
+                                       <Star className="w-3 h-3 text-[#E11D48] fill-current" />
+                                       <span className="text-xs font-black text-[#E11D48]">{rev.author_details.rating}</span>
                                      </div>
                                    )}
                                  </div>

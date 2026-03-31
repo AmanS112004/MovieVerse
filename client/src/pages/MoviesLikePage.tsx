@@ -73,13 +73,13 @@ export default function MoviesLikePage() {
   // Error state for main movie
   if (sourceError) {
     return (
-      <div className="min-h-screen bg-[#38240D] flex flex-col items-center justify-center p-4 text-center">
+      <div className="min-h-screen bg-[#0B0F1A] flex flex-col items-center justify-center p-4 text-center">
         <div className="w-20 h-20 rounded-3xl bg-red-500/10 flex items-center justify-center mb-6">
           <X className="w-10 h-10 text-red-500" />
         </div>
-        <h2 className="text-2xl font-black text-[#FDFBD4] mb-2 uppercase tracking-widest">Movie not found</h2>
-        <p className="text-[rgba(253,251,212,0.4)] mb-8">We couldn't load details for this title. It might have been removed or doesn't exist.</p>
-        <button onClick={() => navigate('/')} className="text-[#C05800] font-black uppercase text-sm tracking-[0.2em] hover:underline">Return to safety</button>
+        <h2 className="text-2xl font-black text-white mb-2 uppercase tracking-widest">Movie not found</h2>
+        <p className="text-gray-400 mb-8">We couldn't load details for this title. It might have been removed or doesn't exist.</p>
+        <button onClick={() => navigate('/')} className="text-[#E11D48] font-black uppercase text-sm tracking-[0.2em] hover:underline">Return to safety</button>
       </div>
     );
   }
@@ -87,16 +87,16 @@ export default function MoviesLikePage() {
   // Loading state
   if (loadingSource && !sourceMovie) {
     return (
-      <div className="min-h-screen bg-[#38240D] flex items-center justify-center">
+      <div className="min-h-screen bg-[#0B0F1A] flex items-center justify-center">
         <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}>
-          <Loader2 className="w-10 h-10 text-[#C05800]" />
+          <Loader2 className="w-10 h-10 text-[#E11D48]" />
         </motion.div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#38240D] relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#0B0F1A] relative overflow-x-hidden">
       <Navbar
         onAuthClick={() => setAuthModalOpen(true)}
         onDashboardClick={() => { if (user) setDashboardOpen(true); else setAuthModalOpen(true); }}
@@ -112,8 +112,8 @@ export default function MoviesLikePage() {
             alt={sourceMovie?.title || 'Backdrop'}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#38240D] via-[#38240D]/60 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#38240D]/80 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F1A] via-[#0B0F1A]/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F1A]/80 via-transparent to-transparent" />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pb-12 w-full">
@@ -134,14 +134,14 @@ export default function MoviesLikePage() {
               transition={{ duration: 0.6 }}
               className="flex-1"
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-4 bg-[#C05800]/10 border border-[#C05800]/20">
-                <Sparkles className="w-3 h-3 text-[#C05800]" />
-                <span className="text-[10px] font-black text-[#C05800] uppercase tracking-widest">AI Recommendation Engine</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-4 bg-[#E11D48]/10 border border-[#E11D48]/20">
+                <Sparkles className="w-3 h-3 text-[#E11D48]" />
+                <span className="text-[10px] font-black text-[#E11D48] uppercase tracking-widest">AI Recommendation Engine</span>
               </div>
-              <h1 className="text-4xl sm:text-6xl font-black text-[#FDFBD4] mb-4 tracking-tighter leading-none">
-                Because you liked <span className="text-[#C05800] italic">"{sourceMovie?.title || sourceMovie?.name || 'this movie'}"</span>
+              <h1 className="text-4xl sm:text-6xl font-black text-white mb-4 tracking-tighter leading-none">
+                Because you liked <span className="text-[#E11D48] italic">"{sourceMovie?.title || sourceMovie?.name || 'this movie'}"</span>
               </h1>
-              <p className="text-lg text-[rgba(253,251,212,0.6)] max-w-2xl font-medium line-clamp-2">
+              <p className="text-lg text-gray-400 max-w-2xl font-medium line-clamp-2">
                 {sourceMovie?.overview}
               </p>
             </motion.div>
@@ -165,7 +165,7 @@ export default function MoviesLikePage() {
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setShowTrailer(true)}
                   className="flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-black text-white text-lg shadow-2xl transition-all"
-                  style={{ background: '#C05800', boxShadow: '0 20px 40px rgba(192,88,0,0.3)' }}
+                  style={{ background: '#E11D48', boxShadow: '0 20px 40px rgba(225,29,72,0.3)' }}
                 >
                   <Play className="w-6 h-6 fill-current" />
                   Play Trailer
@@ -186,8 +186,8 @@ export default function MoviesLikePage() {
                 className={cn(
                   "flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-black text-lg shadow-2xl transition-all border",
                   showCollections 
-                    ? "bg-[#C05800] border-[#C05800] text-white" 
-                    : "bg-[#38240D]/80 border-[rgba(253,251,212,0.1)] text-[#FDFBD4] hover:bg-[rgba(253,251,212,0.1)]"
+                    ? "bg-[#E11D48] border-[#E11D48] text-white" 
+                    : "bg-[#111827]/80 border-white/10 text-white hover:bg-white/10"
                 )}
               >
                 <ListPlus className="w-6 h-6" />
@@ -331,13 +331,13 @@ export default function MoviesLikePage() {
               exit={{ opacity: 0, y: 20, x: '-50%' }}
               className="fixed bottom-10 left-1/2 z-[200] px-6 py-3 rounded-2xl shadow-2xl border flex items-center gap-3 backdrop-blur-xl"
               style={{
-                background: 'rgba(56,36,13,0.98)',
-                borderColor: 'rgba(192,88,0,0.4)',
+                background: 'rgba(11,15,26,0.98)',
+                borderColor: 'rgba(225,29,72,0.4)',
                 boxShadow: '0 20px 50px rgba(0,0,0,0.5)'
               }}
             >
-              <div className="w-2 h-2 rounded-full bg-[#C05800] animate-pulse" />
-              <span className="text-sm font-bold text-[#C05800] whitespace-nowrap">{compareWarning}</span>
+              <div className="w-2 h-2 rounded-full bg-[#E11D48] animate-pulse" />
+              <span className="text-sm font-bold text-[#E11D48] whitespace-nowrap">{compareWarning}</span>
             </motion.div>
           )}
         </AnimatePresence>

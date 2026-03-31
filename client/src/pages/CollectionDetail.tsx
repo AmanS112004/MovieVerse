@@ -62,8 +62,8 @@ export default function CollectionDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#38240D] flex items-center justify-center">
-        <Loader2 className="w-10 h-10 text-[#C05800] animate-spin" />
+      <div className="min-h-screen bg-[#0B0F1A] flex items-center justify-center">
+        <Loader2 className="w-10 h-10 text-[#E11D48] animate-spin" />
       </div>
     );
   }
@@ -71,7 +71,7 @@ export default function CollectionDetail() {
   if (!collection) return null;
 
   return (
-    <div className="min-h-screen bg-[#38240D] relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#0B0F1A] relative overflow-x-hidden">
       <Navbar
         onAuthClick={() => setAuthModalOpen(true)}
         onDashboardClick={() => navigate('/collections')}
@@ -83,7 +83,7 @@ export default function CollectionDetail() {
         <header className="mb-12">
           <button
             onClick={() => navigate('/collections')}
-            className="flex items-center gap-2 text-[rgba(253,251,212,0.4)] hover:text-[#FDFBD4] transition-colors mb-6 group"
+            className="flex items-center gap-2 text-gray-500 hover:text-white transition-colors mb-6 group"
           >
             <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
             <span className="text-xs font-black uppercase tracking-widest">Back to Collections</span>
@@ -94,7 +94,7 @@ export default function CollectionDetail() {
               <motion.h1 
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-4xl sm:text-6xl font-black text-[#FDFBD4] tracking-tighter mb-4"
+                className="text-4xl sm:text-6xl font-black text-white tracking-tighter mb-4"
               >
                 {collection.name}
               </motion.h1>
@@ -102,7 +102,7 @@ export default function CollectionDetail() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-lg text-[rgba(253,251,212,0.6)] font-medium max-w-3xl"
+                className="text-lg text-gray-400 font-medium max-w-3xl"
               >
                 {collection.description || 'No description provided.'}
               </motion.p>
@@ -117,7 +117,7 @@ export default function CollectionDetail() {
             </button>
           </div>
 
-          <div className="flex items-center gap-6 mt-8 text-[10px] font-black uppercase tracking-widest text-[rgba(253,251,212,0.4)]">
+          <div className="flex items-center gap-6 mt-8 text-[10px] font-black uppercase tracking-widest text-gray-500">
              <span className="flex items-center gap-1.5">
                <Film className="w-3.5 h-3.5" />
                {collection.movies.length} TITLES
@@ -131,15 +131,15 @@ export default function CollectionDetail() {
 
         {collection.movies.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
-            <div className="w-16 h-16 rounded-full bg-[rgba(253,251,212,0.03)] flex items-center justify-center mb-4">
-               <Film className="w-6 h-6 text-[rgba(253,251,212,0.1)]" />
+            <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-4">
+               <Film className="w-6 h-6 text-white/10" />
             </div>
-            <p className="text-[rgba(253,251,212,0.3)] font-black uppercase tracking-widest text-sm">
+            <p className="text-gray-500 font-black uppercase tracking-widest text-sm">
               This list is currently empty
             </p>
             <button
               onClick={() => navigate('/')}
-              className="mt-4 text-[#C05800] font-black uppercase text-[10px] tracking-widest hover:underline"
+              className="mt-4 text-[#E11D48] font-black uppercase text-[10px] tracking-widest hover:underline"
             >
               Browse movies to add
             </button>

@@ -48,27 +48,27 @@ export default function Dashboard({ onMovieClick, onClose }: DashboardProps) {
       transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
       className="fixed inset-y-0 right-0 z-[150] w-full sm:w-[480px] overflow-hidden"
       style={{
-        background: '#38240D',
-        borderLeft: '1px solid rgba(253,251,212,0.12)',
+        background: '#111827',
+        borderLeft: '1px solid rgba(255,255,255,0.1)',
         boxShadow: '-40px 0 80px rgba(0,0,0,0.5)',
       }}
     >
       {/* Header */}
-      <div className="flex items-center justify-between p-5 border-b border-[rgba(253,251,212,0.08)]">
+      <div className="flex items-center justify-between p-5 border-b border-white/5">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full flex items-center justify-center bg-[rgba(253,251,212,0.1)]">
-            <User className="w-4 h-4 text-[#FDFBD4]" />
+          <div className="w-9 h-9 rounded-full flex items-center justify-center bg-white/5">
+            <User className="w-4 h-4 text-white" />
           </div>
           <div>
-            <div className="font-bold text-sm text-[#FDFBD4]">{user?.name || 'Guest'}</div>
-            <div className="text-xs text-[rgba(253,251,212,0.4)]">{user?.email}</div>
+            <div className="font-bold text-sm text-white">{user?.name || 'Guest'}</div>
+            <div className="text-xs text-gray-500">{user?.email}</div>
           </div>
         </div>
         <div className="flex gap-2">
           <motion.button
             whileTap={{ scale: 0.9 }}
             onClick={() => { clearAuth(); onClose(); }}
-            className="p-2 rounded-xl hover:bg-[rgba(253,251,212,0.1)] transition-colors text-[rgba(253,251,212,0.5)] hover:text-[#FDFBD4]"
+            className="p-2 rounded-xl hover:bg-white/5 transition-colors text-gray-500 hover:text-white"
             title="Sign out"
           >
             <LogOut className="w-4 h-4" />
@@ -76,7 +76,7 @@ export default function Dashboard({ onMovieClick, onClose }: DashboardProps) {
           <motion.button
             whileTap={{ scale: 0.9 }}
             onClick={onClose}
-            className="p-2 rounded-xl hover:bg-[rgba(253,251,212,0.1)] transition-colors text-[rgba(253,251,212,0.5)]"
+            className="p-2 rounded-xl hover:bg-white/5 transition-colors text-gray-500"
           >
             <X className="w-4 h-4" />
           </motion.button>
@@ -85,16 +85,16 @@ export default function Dashboard({ onMovieClick, onClose }: DashboardProps) {
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3 p-5">
-        <div className="p-4 rounded-2xl text-center" style={{ background: 'rgba(253,251,212,0.04)', border: '1px solid rgba(253,251,212,0.08)' }}>
-          <div className="text-2xl font-black text-[#FDFBD4]">{bookmarks.length}</div>
-          <div className="text-xs text-[rgba(253,251,212,0.4)] mt-0.5 flex items-center justify-center gap-1">
-            <Bookmark className="w-3 h-3" /> Saved
+        <div className="p-4 rounded-2xl text-center" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
+          <div className="text-2xl font-black text-white">{bookmarks.length}</div>
+          <div className="text-xs text-gray-500 mt-0.5 flex items-center justify-center gap-1">
+            <Bookmark className="w-3 h-3 text-[#E11D48]" /> Saved
           </div>
         </div>
-        <div className="p-4 rounded-2xl text-center" style={{ background: 'rgba(253,251,212,0.04)', border: '1px solid rgba(253,251,212,0.08)' }}>
-          <div className="text-2xl font-black text-[#FDFBD4]">{recentlyViewed.length}</div>
-          <div className="text-xs text-[rgba(253,251,212,0.4)] mt-0.5 flex items-center justify-center gap-1">
-            <Clock className="w-3 h-3" /> Viewed
+        <div className="p-4 rounded-2xl text-center" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
+          <div className="text-2xl font-black text-white">{recentlyViewed.length}</div>
+          <div className="text-xs text-gray-500 mt-0.5 flex items-center justify-center gap-1">
+            <Clock className="w-3 h-3 text-[#2563EB]" /> Viewed
           </div>
         </div>
       </div>
@@ -110,8 +110,8 @@ export default function Dashboard({ onMovieClick, onClose }: DashboardProps) {
             onClick={() => setActiveTab(id)}
             className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
               activeTab === id
-                ? 'bg-[rgba(192,88,0,0.15)] text-[#FDFBD4] shadow-sm'
-                : 'text-[rgba(253,251,212,0.4)] hover:text-[rgba(253,251,212,0.6)]'
+                ? 'bg-[#E11D48]/20 text-white shadow-sm'
+                : 'text-gray-500 hover:text-gray-300'
             }`}
           >
             <Icon className="w-3.5 h-3.5" />
@@ -134,7 +134,7 @@ export default function Dashboard({ onMovieClick, onClose }: DashboardProps) {
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center h-48 text-[rgba(253,251,212,0.3)]">
+            <div className="flex flex-col items-center justify-center h-48 text-gray-700">
               <Bookmark className="w-10 h-10 mb-3 opacity-40" />
               <p className="text-sm">No saved movies yet</p>
               <p className="text-xs mt-1">Click the bookmark icon on any movie</p>
@@ -148,7 +148,7 @@ export default function Dashboard({ onMovieClick, onClose }: DashboardProps) {
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center h-48 text-[rgba(253,251,212,0.3)]">
+            <div className="flex flex-col items-center justify-center h-48 text-gray-700">
               <Clock className="w-10 h-10 mb-3 opacity-40" />
               <p className="text-sm">No recently viewed</p>
             </div>
