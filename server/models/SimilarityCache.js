@@ -3,12 +3,7 @@ const mongoose = require('mongoose');
 const similarityCacheSchema = new mongoose.Schema({
   sourceMovieId: { type: Number, required: true },
   mediaType: { type: String, default: 'movie' },
-  results: [{ 
-    id: Number, 
-    score: Number, 
-    vibe_tags: [String],
-    reason: String 
-  }],
+  results: [mongoose.Schema.Types.Mixed],
   lastComputed: { type: Date, default: Date.now }
 });
 

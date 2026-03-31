@@ -155,8 +155,28 @@ export interface User {
   email: string;
 }
 
+export interface CollectionMovie {
+  movieId: number;
+  title: string;
+  poster_path?: string;
+  media_type: string;
+  addedAt: string;
+}
+
+export interface Collection {
+  _id: string;
+  userId: string;
+  name: string;
+  description: string;
+  movies: CollectionMovie[];
+  isPublic: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface AuthState {
   user: User | null;
   token: string | null;
   isAuthenticated: boolean;
 }
+

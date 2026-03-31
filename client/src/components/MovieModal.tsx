@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Star, Clock, Calendar, Play, Bookmark, BookmarkCheck, Globe, ChevronDown, ExternalLink, Award, Users, Sparkles } from 'lucide-react';
+import { X, Star, Clock, Calendar, Play, Bookmark, BookmarkCheck, Globe, ChevronDown, ExternalLink, Award, Users, Sparkles, ListPlus } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import api from '@/lib/api';
 import VibeChart from './VibeChart';
 import { getPosterUrl, getBackdropUrl, formatRuntime, formatFullDate, cn } from '@/lib/utils';
 import { useStore } from '@/store/useStore';
 import type { Movie, MovieDetail, CastMember } from '@/types';
+import AddMovieToCollection from './AddMovieToCollection';
 
 interface MovieModalProps {
   movie: Movie;
@@ -27,7 +28,11 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
   const [activeTab, setActiveTab] = useState<'overview' | 'cast' | 'streaming' | 'vibe' | 'reviews'>('overview');
   const [watchRegion, setWatchRegion] = useState('IN');
   const [showTrailer, setShowTrailer] = useState(false);
-  const { isBookmarked, toggleBookmark, addToRecent, user, setOopsModalOpen } = useStore();
+  const [showCollections, setShowCollections] = useState(false);
+  const { 
+    isBookmarked, toggleBookmark, addToRecent, 
+    user, setOopsModalOpen, setAuthModalOpen, setCreateCollectionModalOpen 
+  } = useStore();
 
   const mediaType = movie.media_type || 'movie';
 
@@ -128,6 +133,21 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
           }}
           onClick={e => e.stopPropagation()}
         >
+          <AnimatePresence>
+            {showCollections && (
+              <div 
+                className="absolute top-20 right-6 z-[110]"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <AddMovieToCollection 
+                  movie={movie}
+                  onClose={() => setShowCollections(false)}
+                  onCreateNewCollection={() => setCreateCollectionModalOpen(true)}
+                />
+              </div>
+            )}
+          </AnimatePresence>
+
           {/* Backdrop */}
           <div className="relative h-52 sm:h-72 overflow-hidden flex-shrink-0">
             {backdropUrl && (
@@ -215,21 +235,39 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
                       <p className="text-sm text-[rgba(253,251,212,0.5)] italic mt-1">"{detail.tagline}"</p>
                     )}
                   </div>
-                  <motion.button
-                    whileTap={{ scale: 0.9 }}
-                    onClick={() => {
-                      if (!user) {
-                        setOopsModalOpen(true);
-                      } else {
-                        toggleBookmark(movie.id, mediaType);
-                      }
-                    }}
-                    className={cn('p-2.5 rounded-xl transition-all flex-shrink-0',
-                      bookmarked ? 'bg-[#C05800] text-white' : 'bg-[rgba(253,251,212,0.05)] text-[#FDFBD4] hover:bg-[rgba(253,251,212,0.1)]'
-                    )}
-                  >
-                    {bookmarked ? <BookmarkCheck className="w-5 h-5" /> : <Bookmark className="w-5 h-5" />}
-                  </motion.button>
+                  <div className="flex gap-2 flex-shrink-0">
+                    <motion.button
+                      whileTap={{ scale: 0.9 }}
+                      onClick={() => {
+                        if (!user) {
+                          setAuthModalOpen(true);
+                        } else {
+                          setShowCollections(!showCollections);
+                        }
+                      }}
+                      className={cn('p-2.5 rounded-xl transition-all',
+                        showCollections ? 'bg-[#C05800] text-white' : 'bg-[rgba(253,251,212,0.05)] text-[#FDFBD4] hover:bg-[rgba(253,251,212,0.1)]'
+                      )}
+                      title="Add to Collection"
+                    >
+                      <ListPlus className="w-5 h-5" />
+                    </motion.button>
+                    <motion.button
+                      whileTap={{ scale: 0.9 }}
+                      onClick={() => {
+                        if (!user) {
+                          setOopsModalOpen(true);
+                        } else {
+                          toggleBookmark(movie.id, mediaType);
+                        }
+                      }}
+                      className={cn('p-2.5 rounded-xl transition-all flex-shrink-0',
+                        bookmarked ? 'bg-[#C05800] text-white' : 'bg-[rgba(253,251,212,0.05)] text-[#FDFBD4] hover:bg-[rgba(253,251,212,0.1)]'
+                      )}
+                    >
+                      {bookmarked ? <BookmarkCheck className="w-5 h-5" /> : <Bookmark className="w-5 h-5" />}
+                    </motion.button>
+                  </div>
                 </div>
 
                 {/* Meta row */}

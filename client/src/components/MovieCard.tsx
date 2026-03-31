@@ -1,9 +1,10 @@
 import React from 'react';
-import { motion } from 'motion/react';
-import { Bookmark, BookmarkCheck, Plus, Star } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Bookmark, BookmarkCheck, Plus, Star, ListPlus } from 'lucide-react';
 import { getPosterUrl, formatDate, cn, truncate } from '@/lib/utils';
 import { useStore } from '@/store/useStore';
 import type { Movie } from '@/types';
+import AddMovieToCollection from './AddMovieToCollection';
 
 interface MovieCardProps {
   movie: Movie;
@@ -12,7 +13,12 @@ interface MovieCardProps {
 }
 
 export default function MovieCard({ movie, onClick, index = 0 }: MovieCardProps) {
-  const { isBookmarked, toggleBookmark, addToCompare, compareQueue, user, setOopsModalOpen } = useStore();
+  const { 
+    isBookmarked, toggleBookmark, addToCompare, compareQueue, 
+    user, setOopsModalOpen, setCreateCollectionModalOpen, setAuthModalOpen 
+  } = useStore();
+  const [showCollections, setShowCollections] = React.useState(false);
+
   const bookmarked = isBookmarked(movie.id);
   const inCompare = compareQueue.some(m => m.id === movie.id);
 
@@ -39,11 +45,31 @@ export default function MovieCard({ movie, onClick, index = 0 }: MovieCardProps)
     addToCompare(movie);
   };
 
+  const handleShowCollections = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!user) {
+      setAuthModalOpen(true);
+      return;
+    }
+    setShowCollections(!showCollections);
+  };
+
   return (
     <div 
       className="group relative"
       style={{ perspective: '1000px' }}
     >
+      <AnimatePresence>
+        {showCollections && (
+          <div onClick={(e) => e.stopPropagation()}>
+            <AddMovieToCollection 
+              movie={movie}
+              onClose={() => setShowCollections(false)}
+              onCreateNewCollection={() => setCreateCollectionModalOpen(true)}
+            />
+          </div>
+        )}
+      </AnimatePresence>
       {/* 1. Main Clickable Card Area */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -156,6 +182,16 @@ export default function MovieCard({ movie, onClick, index = 0 }: MovieCardProps)
           title={inCompare ? 'Added to compare' : 'Add to compare'}
         >
           <Plus className="w-3.5 h-3.5" />
+        </motion.button>
+
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={handleShowCollections}
+          className="flex items-center justify-center p-2.5 rounded-xl text-xs font-semibold transition-all shadow-2xl bg-[rgba(26,15,5,0.95)] text-[rgba(253,251,212,0.7)] border border-[rgba(253,251,212,0.2)] hover:bg-[rgba(253,251,212,0.1)] pointer-events-auto"
+          title="Add to Collection"
+        >
+          <ListPlus className="w-3.5 h-3.5" />
         </motion.button>
       </div>
 

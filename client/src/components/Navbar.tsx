@@ -52,8 +52,8 @@ export default function Navbar({ onAuthClick, onDashboardClick, onCompareClick, 
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
           {/* Logo */}
-          <motion.div 
-            className="flex items-center gap-2.5 cursor-pointer" 
+          <motion.div
+            className="flex items-center gap-2.5 cursor-pointer"
             whileTap={{ scale: 0.97 }}
             onClick={() => {
               if (location.pathname !== '/') {
@@ -74,17 +74,21 @@ export default function Navbar({ onAuthClick, onDashboardClick, onCompareClick, 
           {/* Desktop Nav */}
           <div className="hidden sm:flex items-center gap-1">
             {navItems.map((item) => (
-              <div 
-                key={item.id} 
+              <div
+                key={item.id}
                 className="px-4 py-2 cursor-pointer"
                 onClick={() => {
-                  if (location.pathname !== '/') {
-                    navigate('/', { state: { scrollTo: 'trending-section' } });
+                  if (item.id === 'trending-in') navigate('/trending-in');
+                  else if (item.id === 'trending-intl') navigate('/trending-global');
+                  else if (item.id === 'collections') {
+                    if (user) navigate('/collections');
+                    else onAuthClick();
                   } else {
                     onCategoryClick(item.id);
                   }
                 }}
               >
+
                 <TextRoll
                   className="text-sm font-semibold text-[rgba(253,251,212,0.7)] dark:text-[rgba(253,251,212,0.7)] hover:text-[#FDFBD4]"
                   center
@@ -180,12 +184,23 @@ export default function Navbar({ onAuthClick, onDashboardClick, onCompareClick, 
                 {navItems.map((item) => (
                   <button
                     key={item.id}
-                    onClick={() => { onCategoryClick(item.id); setMobileOpen(false); }}
+                    onClick={() => { 
+                      if (item.id === 'trending-in') navigate('/trending-in');
+                      else if (item.id === 'trending-intl') navigate('/trending-global');
+                      else if (item.id === 'collections') {
+                        if (user) navigate('/collections');
+                        else onAuthClick();
+                      } else {
+                        onCategoryClick(item.id); 
+                      }
+                      setMobileOpen(false); 
+                    }}
                     className="w-full text-left px-4 py-3 rounded-xl text-sm font-semibold text-[rgba(253,251,212,0.7)] hover:bg-[rgba(253,251,212,0.08)] hover:text-[#FDFBD4] transition-all"
                   >
                     {item.name}
                   </button>
                 ))}
+
               </div>
             </motion.div>
           )}

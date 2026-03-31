@@ -28,12 +28,14 @@ app.use(cors({
 }));
 
 // Body parsing
-app.use(express.json({ limit: '10kb' }));
+app.use(express.json({ limit: '1mb' }));
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/movies', require('./routes/movies'));
 app.use('/api/bookmarks', require('./routes/bookmarks'));
+app.use('/api/collections', require('./routes/collections'));
+
 
 // Health check
 app.get('/api/health', (req, res) => {

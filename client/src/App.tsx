@@ -2,6 +2,10 @@ import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
+import TrendingIn from './pages/TrendingIn';
+import TrendingGlobal from './pages/TrendingGlobal';
+import Collections from './pages/Collections';
+import CollectionDetail from './pages/CollectionDetail';
 import MoviesLikePage from './pages/MoviesLikePage';
 import './index.css';
 
@@ -21,6 +25,10 @@ export default function App() {
         <div className="dark">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/trending-in" element={<TrendingIn />} />
+            <Route path="/trending-global" element={<TrendingGlobal />} />
+            <Route path="/collections" element={<Collections />} />
+            <Route path="/collections/:id" element={<CollectionDetail />} />
             <Route path="/movies-like/:movieId" element={<MoviesLikePage />} />
           </Routes>
         </div>
@@ -28,3 +36,5 @@ export default function App() {
     </QueryClientProvider>
   );
 }
+
+

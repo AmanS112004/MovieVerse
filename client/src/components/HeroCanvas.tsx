@@ -1,85 +1,114 @@
-import React, { useRef, useEffect, useMemo } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import * as THREE from 'three';
+import { useEffect, useRef } from "react";
 
-function Particles({ count = 120 }: { count?: number }) {
-  const mesh = useRef<THREE.Points>(null);
-  const { size } = useThree();
-
-  const [positions, sizes] = useMemo(() => {
-    const pos = new Float32Array(count * 3);
-    const sz = new Float32Array(count);
-    for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 30;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 20;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 15;
-      sz[i] = Math.random() * 3 + 0.5;
-    }
-    return [pos, sz];
-  }, [count]);
-
-  useFrame(({ clock }) => {
-    if (!mesh.current) return;
-    mesh.current.rotation.y = clock.getElapsedTime() * 0.03;
-    mesh.current.rotation.x = Math.sin(clock.getElapsedTime() * 0.02) * 0.1;
-  });
-
-  return (
-    <points ref={mesh}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          args={[positions, 3]}
-        />
-        <bufferAttribute
-          attach="attributes-size"
-          args={[sizes, 1]}
-        />
-      </bufferGeometry>
-      <pointsMaterial
-        color="#FDFBD4"
-        size={0.08}
-        sizeAttenuation={true}
-        transparent
-        opacity={0.6}
-        depthWrite={false}
-      />
-    </points>
-  );
-}
-
-function FloatingRings() {
-  const group = useRef<THREE.Group>(null);
-
-  useFrame(({ clock }) => {
-    if (!group.current) return;
-    group.current.rotation.x = clock.getElapsedTime() * 0.05;
-    group.current.rotation.z = clock.getElapsedTime() * 0.03;
-  });
-
-  return (
-    <group ref={group}>
-      {[3.5, 5.5, 7.5].map((r, i) => (
-        <mesh key={i} rotation={[Math.PI / 4 + i * 0.3, i * 0.5, 0]}>
-          <torusGeometry args={[r, 0.02, 8, 80]} />
-          <meshBasicMaterial color="#ACC8A2" transparent opacity={0.08 - i * 0.02} />
-        </mesh>
-      ))}
-    </group>
-  );
-}
+const FRAME_COUNT = 192;
 
 export default function HeroCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const images = useRef<HTMLImageElement[]>([]);
+  const currentFrame = useRef(0);
+
+  // 🔥 Preload images
+  useEffect(() => {
+    const loadedImages: HTMLImageElement[] = [];
+
+    for (let i = 1; i <= FRAME_COUNT; i++) {
+      const img = new Image();
+
+      const num = String(i).padStart(5, "0"); // 00001 → 00192
+      img.src = `/spiderman/${num}.png`;
+
+      loadedImages.push(img);
+    }
+
+    images.current = loadedImages;
+
+    // render first frame safely
+    if (loadedImages[0]) {
+      loadedImages[0].onload = () => render(0);
+    }
+  }, []);
+
+  // 🎨 Render function (cover fit like CSS background)
+  const render = (index: number) => {
+    const canvas = canvasRef.current;
+    const context = canvas?.getContext("2d");
+
+    if (!canvas || !context) return;
+
+    const img = images.current[index];
+    if (!img) return;
+
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    canvas.width = width;
+    canvas.height = height;
+
+    context.clearRect(0, 0, width, height);
+
+    // cover scaling
+    const scale = Math.max(width / img.width, height / img.height);
+
+    const x = width / 2 - (img.width / 2) * scale;
+    const y = height / 2 - (img.height / 2) * scale;
+
+    context.drawImage(
+      img,
+      x,
+      y,
+      img.width * scale,
+      img.height * scale
+    );
+  };
+
+  // 🧠 Smooth scroll animation (lerp for buttery feel)
+  useEffect(() => {
+    let targetFrame = 0;
+    let rafId: number;
+
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const maxScroll = window.innerHeight * 3;
+
+      const progress = Math.min(scrollTop / maxScroll, 1);
+
+      targetFrame = progress * (FRAME_COUNT - 1);
+    };
+
+    const animate = () => {
+      const diff = targetFrame - currentFrame.current;
+
+      // smooth interpolation
+      currentFrame.current += diff * 0.1;
+
+      const frameIndex = Math.floor(currentFrame.current);
+
+      render(frameIndex);
+
+      rafId = requestAnimationFrame(animate);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    animate();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  // 📱 Handle resize
+  useEffect(() => {
+    const handleResize = () => render(Math.floor(currentFrame.current));
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <Canvas
-      camera={{ position: [0, 0, 12], fov: 60 }}
-      style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
-      gl={{ antialias: true, alpha: true }}
-      dpr={[1, 1.5]}
-    >
-      <ambientLight intensity={0.2} />
-      <Particles count={150} />
-      <FloatingRings />
-    </Canvas>
+    <canvas
+      ref={canvasRef}
+      className="fixed top-0 left-0 w-full h-full z-0"
+    />
   );
 }

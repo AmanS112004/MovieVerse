@@ -8,8 +8,23 @@ const TMDB_BASE = 'https://api.themoviedb.org/3';
 const TMDB_KEY = process.env.TMDB_API_KEY;
 const OMDB_KEY = process.env.OMDB_API_KEY;
 
-const tmdb = (path, params = {}) =>
-  axios.get(`${TMDB_BASE}${path}`, { params: { api_key: TMDB_KEY, ...params } });
+const tmdb = async (path, params = {}, retries = 2) => {
+  try {
+    return await axios.get(`${TMDB_BASE}${path}`, { 
+      params: { api_key: TMDB_KEY, ...params },
+      timeout: 10000 // 10s timeout
+    });
+  } catch (err) {
+    const isRetryable = err.code === 'ECONNRESET' || err.code === 'ETIMEDOUT' || err.response?.status >= 500;
+    if (retries > 0 && isRetryable) {
+      console.log(`🔄 Retrying TMDB (${path})... ${retries} left`);
+      await new Promise(r => setTimeout(r, 500)); // wait 500ms
+      return tmdb(path, params, retries - 1);
+    }
+    throw err;
+  }
+};
+
 
 // Search movies/tv/multi with suggestions
 router.get('/search', async (req, res) => {
@@ -35,6 +50,23 @@ router.get('/trending', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+// Trending India
+router.get('/trending/india', async (req, res) => {
+  try {
+    // We use discover with region filter for better local relevance
+    const { data } = await tmdb('/discover/movie', {
+      sort_by: 'popularity.desc',
+      region: 'IN',
+      with_origin_country: 'IN',
+      'vote_count.gte': 50
+    });
+    res.json(data.results);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 
 // Get 30+ similar movies based on vibe, tone, themes (Advanced Engine)
 router.get('/similar/:id', getAdvancedSimilar);
