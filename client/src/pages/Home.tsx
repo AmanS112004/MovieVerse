@@ -1,17 +1,16 @@
 import React, { useState, Suspense, lazy } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useQuery } from '@tanstack/react-query';
-import { Sparkles, ChevronDown } from 'lucide-react';
 import SearchBar from '@/components/SearchBar';
 import MovieCard from '@/components/MovieCard';
 import Navbar from '@/components/Navbar';
-import TextRoll from '@/components/ui/text-roll';
 import api from '@/lib/api';
 import { useStore } from '@/store/useStore';
 import { useNavigate } from 'react-router-dom';
 import type { Movie } from '@/types';
+import TopTenSlider from "@/components/TopTenSlider";
 
-// Lazy load heavy modals
+// Lazy components
 const MovieModal = lazy(() => import('@/components/MovieModal'));
 const ActorModal = lazy(() => import('@/components/ActorModal'));
 const CompareModal = lazy(() => import('@/components/CompareModal'));
@@ -22,6 +21,7 @@ const OopsModal = lazy(() => import('@/components/OopsModal'));
 
 export default function Home() {
   const navigate = useNavigate();
+
   const {
     selectedMovie,
     setSelectedMovie,
@@ -37,7 +37,7 @@ export default function Home() {
   const [actorId, setActorId] = useState<number | null>(null);
   const [dashboardOpen, setDashboardOpen] = useState(false);
 
-  // Global Trending
+  // Trending APIs
   const { data: trendingGlobal, isLoading: globalLoading } = useQuery<Movie[]>({
     queryKey: ['trending-global'],
     queryFn: async () => {
@@ -47,7 +47,6 @@ export default function Home() {
     staleTime: 5 * 60 * 1000,
   });
 
-  // India Trending
   const { data: trendingIndia, isLoading: indiaLoading } = useQuery<Movie[]>({
     queryKey: ['trending-india'],
     queryFn: async () => {
@@ -59,7 +58,6 @@ export default function Home() {
 
   const trendingLoading = globalLoading || indiaLoading;
 
-  // Mix Trending (India first, then alternating)
   const mixedTrending = React.useMemo(() => {
     if (!trendingGlobal && !trendingIndia) return [];
     const mixed: Movie[] = [];
@@ -70,13 +68,12 @@ export default function Home() {
       if (trendingGlobal?.[i]) mixed.push(trendingGlobal[i]);
     }
 
-    // Deduplicate by ID
     return Array.from(new Map(mixed.map(m => [m.id, m])).values()).slice(0, 24);
   }, [trendingGlobal, trendingIndia]);
 
-
   return (
     <div className="min-h-screen bg-[#0B0F1A] relative">
+
       {/* Navbar */}
       <Navbar
         onAuthClick={() => setAuthModalOpen(true)}
@@ -91,25 +88,24 @@ export default function Home() {
             section?.scrollIntoView({ behavior: 'smooth' });
           }
         }}
-
       />
 
       {/* HERO SECTION */}
-      <section className="relative h-[300vh] overflow-hidden">
+      <section className="relative h-[150vh] overflow-hidden">
 
-        {/* 🔥 Background Animation */}
+        {/* Background Animation */}
         <Suspense fallback={null}>
           <HeroCanvas />
         </Suspense>
 
-        {/* 🔥 Sticky Content */}
+        {/* Center Content */}
         <div className="sticky top-0 h-screen flex flex-col items-center justify-center px-4">
 
           {/* Gradient orbs */}
-          <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full pointer-events-none opacity-20"
+          <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full opacity-20"
             style={{ background: 'radial-gradient(circle, #E11D48 0%, transparent 70%)', transform: 'translate(-50%, -50%)' }} />
 
-          <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full pointer-events-none opacity-10"
+          <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full opacity-10"
             style={{ background: 'radial-gradient(circle, #2563EB 0%, transparent 70%)', transform: 'translate(50%, 50%)' }} />
 
           <motion.div
@@ -129,7 +125,11 @@ export default function Home() {
 
             {/* Title */}
             <h1 className="text-5xl md:text-7xl lg:text-9xl font-black mb-4 tracking-tighter"
-              style={{ background: 'linear-gradient(135deg, #E11D48 0%, #2563EB 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              style={{
+                background: 'linear-gradient(135deg, #E11D48 0%, #2563EB 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}>
               CINEVERSE
             </h1>
 
@@ -147,16 +147,20 @@ export default function Home() {
             </div>
 
           </motion.div>
-
         </div>
+
+        {/* 🔥 TOP 10 (separate from center to avoid shifting title) */}
+        <div className=" w-full px-6 lg:px-10 relative z-20">
+          <TopTenSlider onMovieClick={(m) => setSelectedMovie(m)} />
+        </div>
+
       </section>
 
-      {/* TRENDING SECTION (Mixed Discovery) */}
-      <section id="trending-section" className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pb-20">
+      {/* TRENDING SECTION */}
+      <section id="trending-section" className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-16 pb-20">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-xl font-black text-[#FDFBD4] uppercase tracking-widest flex items-center gap-2">
+          <h2 className="text-xl font-black text-[#FDFBD4] uppercase tracking-widest">
             Discover what to watch
-            <div className="h-px w-12 bg-[#C05800]/40" />
           </h2>
         </div>
 
@@ -180,7 +184,6 @@ export default function Home() {
         )}
       </section>
 
-
       {/* MODALS */}
       <Suspense fallback={null}>
         <AnimatePresence>
@@ -198,7 +201,10 @@ export default function Home() {
             <ActorModal
               personId={actorId}
               onClose={() => setActorId(null)}
-              onMovieClick={(m) => { setActorId(null); setTimeout(() => setSelectedMovie(m), 100); }}
+              onMovieClick={(m) => {
+                setActorId(null);
+                setTimeout(() => setSelectedMovie(m), 100);
+              }}
             />
           )}
         </AnimatePresence>
@@ -214,7 +220,10 @@ export default function Home() {
         <AnimatePresence>
           {dashboardOpen && user && (
             <Dashboard
-              onMovieClick={(m) => { setDashboardOpen(false); setSelectedMovie(m); }}
+              onMovieClick={(m) => {
+                setDashboardOpen(false);
+                setSelectedMovie(m);
+              }}
               onClose={() => setDashboardOpen(false)}
             />
           )}
@@ -224,26 +233,26 @@ export default function Home() {
           {oopsModalOpen && <OopsModal />}
         </AnimatePresence>
 
-        {/* Comparison Alert */}
         <AnimatePresence>
           {compareWarning && (
             <motion.div
               initial={{ opacity: 0, y: 50, x: '-50%' }}
               animate={{ opacity: 1, y: 0, x: '-50%' }}
               exit={{ opacity: 0, y: 20, x: '-50%' }}
-              className="fixed bottom-10 left-1/2 z-[200] px-6 py-3 rounded-2xl shadow-2xl border flex items-center gap-3 backdrop-blur-xl"
+              className="fixed bottom-10 left-1/2 z-[200] px-6 py-3 rounded-2xl backdrop-blur-xl"
               style={{
                 background: 'rgba(56,36,13,0.98)',
-                borderColor: 'rgba(192,88,0,0.4)',
-                boxShadow: '0 20px 50px rgba(0,0,0,0.5)'
+                border: '1px solid rgba(192,88,0,0.4)'
               }}
             >
-              <div className="w-2 h-2 rounded-full bg-[#C05800] animate-pulse" />
-              <span className="text-sm font-bold text-[#C05800] whitespace-nowrap">{compareWarning}</span>
+              <span className="text-sm font-bold text-[#C05800]">
+                {compareWarning}
+              </span>
             </motion.div>
           )}
         </AnimatePresence>
       </Suspense>
+
     </div>
   );
 }

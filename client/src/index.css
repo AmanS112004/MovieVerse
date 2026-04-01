@@ -5,26 +5,30 @@
 
 :root {
   /* 🖤 Base & Backgrounds */
-  --bg: #0B0F1A;         /* Deep navy black (main background) */
-  --card-bg: #111827;    /* Secondary dark (cards, navbar) */
-  
+  --bg: #0B0F1A;
+  /* Deep navy black (main background) */
+  --card-bg: #111827;
+  /* Secondary dark (cards, navbar) */
+
   /* 🔴 Primary Accent (Spider-Man Red) */
-  --primary: #E11D48;    /* Main accent (buttons, highlights) */
+  --primary: #E11D48;
+  /* Main accent (buttons, highlights) */
   --primary-glow: rgba(225, 29, 72, 0.3);
   --primary-hover: #F43F5E;
-  
+
   /* 🔵 Secondary Accent (Spider-Man Blue) */
-  --secondary: #2563EB;  /* Secondary highlight */
+  --secondary: #2563EB;
+  /* Secondary highlight */
   --secondary-hover: #3B82F6;
-  
+
   /* ⚪ Text Colors */
   --text-primary: #F9FAFB;
   --text-secondary: #9CA3AF;
   --text-muted: #6B7280;
-  
+
   /* 🟡 Optional Highlight (ratings) */
   --rating: #F59E0B;
-  
+
   /* ✨ Glass effects */
   --glass: rgba(17, 24, 39, 0.7);
   --glass-border: rgba(249, 250, 251, 0.1);
@@ -120,9 +124,12 @@ body {
 
 /* Float animation */
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-15px);
   }
