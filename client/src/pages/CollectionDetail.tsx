@@ -153,6 +153,7 @@ export default function CollectionDetail() {
                     id: m.movieId,
                     title: m.title,
                     poster_path: m.poster_path || null,
+                    backdrop_path: null,
                     media_type: m.media_type as any,
                     vote_average: 0,
                     vote_count: 0,
