@@ -10,7 +10,6 @@ import api from '@/lib/api';
 import { useStore } from '@/store/useStore';
 import { getBackdropUrl, cn } from '@/lib/utils';
 import type { Movie } from '@/types';
-import AddMovieToCollection from '@/components/AddMovieToCollection';
 import CreateCollectionModal from '@/components/CreateCollectionModal';
 
 // Lazy load modals to optimize bundle
@@ -36,13 +35,14 @@ export default function MoviesLikePage() {
     setOopsModalOpen,
     createCollectionModalOpen,
     setCreateCollectionModalOpen,
-    compareWarning
+    compareWarning,
+    activeCollectionMovie,
+    setActiveCollectionMovie
   } = useStore();
 
   const [actorId, setActorId] = useState<number | null>(null);
   const [dashboardOpen, setDashboardOpen] = useState(false);
   const [showTrailer, setShowTrailer] = useState(false);
-  const [showCollections, setShowCollections] = useState(false);
 
   // Auto-scroll on movie change
   useEffect(() => {
@@ -132,65 +132,60 @@ export default function MoviesLikePage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="flex-1"
+              className="flex-1 min-w-0"
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-4 bg-[#E11D48]/10 border border-[#E11D48]/20">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-3 sm:mb-4 bg-[#E11D48]/10 border border-[#E11D48]/20">
                 <Sparkles className="w-3 h-3 text-[#E11D48]" />
-                <span className="text-[10px] font-black text-[#E11D48] uppercase tracking-widest">AI Recommendation Engine</span>
+                <span className="text-[9px] sm:text-[10px] font-black text-[#E11D48] uppercase tracking-widest">AI Recommendation Engine</span>
               </div>
-              <h1 className="text-4xl sm:text-6xl font-black text-white mb-4 tracking-tighter leading-none">
+              <h1 className="text-3xl sm:text-6xl font-black text-white mb-4 tracking-tighter leading-tight line-clamp-3 sm:line-clamp-none">
                 Because you liked <span className="text-[#E11D48] italic">"{sourceMovie?.title || sourceMovie?.name || 'this movie'}"</span>
               </h1>
-              <p className="text-lg text-gray-400 max-w-2xl font-medium line-clamp-2">
+              <p className="text-base sm:text-lg text-gray-400 max-w-2xl font-medium line-clamp-2">
                 {sourceMovie?.overview}
               </p>
             </motion.div>
 
-            <div className="flex flex-wrap items-center gap-4 relative">
-              <AnimatePresence>
-                {showCollections && sourceMovie && (
-                  <div className="z-[120]" onClick={(e) => e.stopPropagation()}>
-                    <AddMovieToCollection
-                      movie={sourceMovie}
-                      onClose={() => setShowCollections(false)}
-                      onCreateNewCollection={() => setCreateCollectionModalOpen(true)}
-                    />
-                  </div>
-                )}
-              </AnimatePresence>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto relative group">
 
               {sourceMovie?.trailer ? (
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={() => setShowTrailer(true)}
-                  className="flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-black text-white text-lg shadow-2xl transition-all"
+                  className="flex items-center justify-center gap-3 px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl font-black text-white text-base sm:text-lg shadow-2xl transition-all"
                   style={{ background: '#E11D48', boxShadow: '0 20px 40px rgba(225,29,72,0.3)' }}
                 >
-                  <Play className="w-6 h-6 fill-current" />
+                  <Play className="w-5 h-5 sm:w-6 sm:h-6 fill-current" />
                   Play Trailer
                 </motion.button>
               ) : (
-                <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-black/40 border border-white/10 text-[rgba(253,251,212,0.4)] text-xs font-bold uppercase tracking-widest">
+                <div className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-[rgba(253,251,212,0.4)] text-[10px] font-bold uppercase tracking-widest">
                   No Trailer Available
                 </div>
               )}
 
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => {
                   if (!user) setAuthModalOpen(true);
-                  else setShowCollections(!showCollections);
+                  else {
+                    if (activeCollectionMovie?.id === sourceMovie?.id) {
+                      setActiveCollectionMovie(null);
+                    } else if (sourceMovie) {
+                      setActiveCollectionMovie(sourceMovie);
+                    }
+                  }
                 }}
                 className={cn(
-                  "flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-black text-lg shadow-2xl transition-all border",
-                  showCollections 
-                    ? "bg-[#E11D48] border-[#E11D48] text-white" 
+                  "flex items-center justify-center gap-2.5 px-6 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-sm sm:text-base font-black uppercase tracking-widest transition-all border",
+                  (activeCollectionMovie?.id === sourceMovie?.id && !!sourceMovie)
+                    ? "bg-[#E11D48] border-[#E11D48] text-white shadow-[0_0_20px_rgba(225,29,72,0.4)]"
                     : "bg-[#111827]/80 border-white/10 text-white hover:bg-white/10"
                 )}
               >
-                <ListPlus className="w-6 h-6" />
+                <ListPlus className="w-5 h-5 sm:w-6 sm:h-6" />
                 Add to List
               </motion.button>
             </div>

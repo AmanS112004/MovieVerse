@@ -99,22 +99,21 @@ export default function Navbar({ onAuthClick, onDashboardClick, onCompareClick, 
             ))}
           </div>
 
-          {/* Actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 sm:gap-4">
             {/* Compare button */}
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={onCompareClick}
-              className="relative flex items-center gap-2 px-3 py-2.5 rounded-xl transition-all hover:bg-[rgba(253,251,212,0.1)]"
+              className="relative flex items-center gap-2 p-2 sm:px-3 sm:py-2.5 rounded-xl transition-all hover:bg-[rgba(253,251,212,0.1)]"
               title="Compare Movies"
             >
-              <Scale className="w-4 h-4 text-[rgba(253,251,212,0.7)]" />
+              <Scale className="w-5 h-5 sm:w-4 sm:h-4 text-[rgba(253,251,212,0.7)]" />
               <span className="text-sm font-bold text-[rgba(253,251,212,0.8)] hidden lg:block">Compare</span>
               {compareQueue.length > 0 && (
                 <motion.span
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  className="absolute -top-1 -right-1 w-4 h-4 rounded-full text-[9px] font-black flex items-center justify-center"
+                  className="absolute -top-1 -right-1 w-4 h-4 rounded-full text-[9px] font-black flex items-center justify-center shadow-lg"
                   style={{ background: '#E11D48', color: 'white' }}
                 >
                   {compareQueue.length}
@@ -135,8 +134,8 @@ export default function Navbar({ onAuthClick, onDashboardClick, onCompareClick, 
                   <motion.span
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className="absolute -top-1 -right-1 w-4 h-4 rounded-full text-[9px] font-black flex items-center justify-center"
-                    style={{ background: '#C05800', color: 'white' }}
+                    className="absolute -top-1 -right-1 w-4 h-4 rounded-full text-[9px] font-black flex items-center justify-center shadow-lg"
+                    style={{ background: '#E11D48', color: 'white' }}
                   >
                     {bookmarks.length > 9 ? '9+' : bookmarks.length}
                   </motion.span>
@@ -149,22 +148,26 @@ export default function Navbar({ onAuthClick, onDashboardClick, onCompareClick, 
               whileTap={{ scale: 0.95 }}
               onClick={user ? onDashboardClick : onAuthClick}
               className={cn(
-                'flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all',
+                'flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all',
                 user
                   ? 'bg-white/10 text-white hover:bg-white/20'
                   : 'bg-[#E11D48] text-white hover:bg-[#F43F5E] shadow-[0_0_20px_rgba(225,29,72,0.4)]'
               )}
             >
               <User className="w-4 h-4" />
-              <span className="hidden sm:block">{user ? user.name.split(' ')[0] : 'Sign In'}</span>
+              <span className="hidden xs:block">{user ? user.name.split(' ')[0] : 'Sign In'}</span>
             </motion.button>
 
-            {/* Mobile menu */}
+            {/* Mobile menu trigger */}
             <button
               onClick={() => setMobileOpen(m => !m)}
-              className="sm:hidden p-2.5 rounded-xl hover:bg-white/10 transition-colors"
+              className="sm:hidden p-2 rounded-xl hover:bg-white/10 transition-colors"
             >
-              {mobileOpen ? <X className="w-5 h-5 text-[#E11D48]" /> : <Menu className="w-5 h-5 text-[#E11D48]" />}
+              <div className="relative w-5 h-5 flex flex-col justify-center gap-1.5 overflow-hidden">
+                 <motion.span animate={{ rotate: mobileOpen ? 45 : 0, y: mobileOpen ? 6.5 : 0 }} className="w-5 h-0.5 bg-[#E11D48] rounded-full" />
+                 <motion.span animate={{ x: mobileOpen ? 40 : 0 }} className="w-5 h-0.5 bg-[#E11D48] rounded-full" />
+                 <motion.span animate={{ rotate: mobileOpen ? -45 : 0, y: mobileOpen ? -6.5 : 0 }} className="w-5 h-0.5 bg-[#E11D48] rounded-full" />
+              </div>
             </button>
           </div>
         </div>

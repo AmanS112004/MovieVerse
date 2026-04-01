@@ -128,18 +128,18 @@ export default function Home() {
             </div>
 
             {/* Title */}
-            <h1 className="text-5xl sm:text-7xl lg:text-9xl font-black mb-4 tracking-tighter"
+            <h1 className="text-5xl md:text-7xl lg:text-9xl font-black mb-4 tracking-tighter"
               style={{ background: 'linear-gradient(135deg, #E11D48 0%, #2563EB 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               CINEVERSE
             </h1>
 
             {/* Subtitle */}
-            <p className="text-base sm:text-xl text-[rgba(253,251,212,0.55)] mb-10">
+            <p className="text-sm md:text-xl text-[rgba(253,251,212,0.55)] mb-10 max-w-xs md:max-w-3xl mx-auto">
               Search any movie and discover 30+ similar titles
             </p>
 
             {/* Search */}
-            <div className="max-w-2xl mx-auto">
+            <div className="max-w-2xl mx-auto w-full">
               <SearchBar
                 placeholder="Search Deadpool, Parasite, Attack on Titan..."
                 large

@@ -82,7 +82,7 @@ export default function AuthModal({ onClose }: AuthModalProps) {
           onClick={e => e.stopPropagation()}
         >
           {/* LEFT SIDE: Branding & Cinematic Asset */}
-          <div className="relative w-full lg:w-[45%] h-64 lg:h-auto overflow-hidden">
+          <div className="relative w-full lg:w-[45%] h-48 sm:h-64 lg:h-auto overflow-hidden flex-shrink-0">
             <img 
               src="/spiderman/00001.png" 
               alt="Spider-Man" 
@@ -91,12 +91,12 @@ export default function AuthModal({ onClose }: AuthModalProps) {
             {/* Dark overlay with gradient */}
             <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F1A] via-[#0B0F1A]/40 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-[#0B0F1A]/20" />
             
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-8 z-10">
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 sm:px-8 z-10">
               <motion.h1 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="text-4xl lg:text-6xl font-black tracking-tighter mb-4"
+                className="text-3xl sm:text-4xl lg:text-6xl font-black tracking-tighter mb-2 sm:mb-4"
                 style={{ background: 'linear-gradient(135deg, #E11D48 0%, #2563EB 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
               >
                 CINEVERSE
@@ -105,14 +105,14 @@ export default function AuthModal({ onClose }: AuthModalProps) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="text-white/80 text-sm lg:text-base font-medium max-w-xs"
+                className="text-white/80 text-[10px] sm:text-xs lg:text-base font-medium max-w-[200px] sm:max-w-xs"
               >
                 Discover your next favorite movie, <span className="text-[#E11D48] font-bold">powered by AI</span>
               </motion.p>
             </div>
 
-            {/* Subtle floating elements */}
-            <div className="absolute bottom-8 left-8 flex items-center gap-2 opacity-50">
+            {/* Subtle floating elements - hidden on mobile to save space */}
+            <div className="absolute bottom-4 left-4 sm:bottom-8 sm:left-8 flex items-center gap-2 opacity-50 hidden sm:flex">
                <div className="w-2 h-2 rounded-full bg-[#E11D48] animate-pulse" />
                <span className="text-[10px] text-white font-black uppercase tracking-widest">Authentication Secure</span>
             </div>

@@ -42,11 +42,11 @@ export default function TrendingIn() {
       />
 
       <div className="pt-24 pb-12 px-4 sm:px-6 max-w-7xl mx-auto">
-        <header className="mb-12">
+        <header className="mb-8 sm:mb-12">
           <motion.h1 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="text-4xl sm:text-6xl font-black text-white tracking-tighter"
+            className="text-3xl sm:text-6xl font-black text-white tracking-tighter"
           >
             Trending in <span className="text-[#E11D48] italic">India</span>
           </motion.h1>
@@ -54,7 +54,7 @@ export default function TrendingIn() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-[rgba(253,251,212,0.5)] font-bold mt-4 tracking-widest uppercase text-xs"
+            className="text-[rgba(253,251,212,0.5)] font-bold mt-2 sm:mt-4 tracking-widest uppercase text-[10px] sm:text-xs"
           >
             Regional Blockbusters & Local Favorites
           </motion.p>

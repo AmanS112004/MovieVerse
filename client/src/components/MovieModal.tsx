@@ -7,7 +7,6 @@ import VibeChart from './VibeChart';
 import { getPosterUrl, getBackdropUrl, formatRuntime, formatFullDate, cn } from '@/lib/utils';
 import { useStore } from '@/store/useStore';
 import type { Movie, MovieDetail, CastMember } from '@/types';
-import AddMovieToCollection from './AddMovieToCollection';
 
 interface MovieModalProps {
   movie: Movie;
@@ -28,10 +27,10 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
   const [activeTab, setActiveTab] = useState<'overview' | 'cast' | 'streaming' | 'vibe' | 'reviews'>('overview');
   const [watchRegion, setWatchRegion] = useState('IN');
   const [showTrailer, setShowTrailer] = useState(false);
-  const [showCollections, setShowCollections] = useState(false);
   const { 
     isBookmarked, toggleBookmark, addToRecent, 
-    user, setOopsModalOpen, setAuthModalOpen, setCreateCollectionModalOpen 
+    user, setOopsModalOpen, setAuthModalOpen, setCreateCollectionModalOpen,
+    activeCollectionMovie, setActiveCollectionMovie 
   } = useStore();
 
   const mediaType = movie.media_type || 'movie';
@@ -242,11 +241,15 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
                         if (!user) {
                           setAuthModalOpen(true);
                         } else {
-                          setShowCollections(!showCollections);
+                          if (activeCollectionMovie?.id === movie.id) {
+                            setActiveCollectionMovie(null);
+                          } else {
+                            setActiveCollectionMovie(movie);
+                          }
                         }
                       }}
                       className={cn('p-2.5 rounded-xl transition-all',
-                        showCollections ? 'bg-[#E11D48] text-white' : 'bg-white/5 text-gray-300 hover:bg-white/10'
+                        activeCollectionMovie?.id === movie.id ? 'bg-[#E11D48] text-white' : 'bg-white/5 text-gray-300 hover:bg-white/10'
                       )}
                       title="Add to Collection"
                     >
@@ -356,13 +359,13 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
 
             {/* Tabs */}
             <div className="px-4 sm:px-6">
-              <div className="flex gap-1 p-1 rounded-xl mb-5" style={{ background: 'rgba(255,255,255,0.05)' }}>
+              <div className="flex gap-1 p-1 rounded-xl mb-5 overflow-x-auto no-scrollbar" style={{ background: 'rgba(255,255,255,0.05)' }}>
                 {tabs.map(tab => (
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
                     className={cn(
-                      'flex-1 py-1 px-3 rounded-lg text-[10px] sm:text-xs font-black transition-all uppercase tracking-widest',
+                      'flex-1 min-w-[70px] sm:min-w-0 py-1.5 px-3 rounded-lg text-[9px] sm:text-xs font-black transition-all uppercase tracking-widest whitespace-nowrap',
                       activeTab === tab.id
                         ? 'bg-[#E11D48] text-white shadow-lg'
                         : 'text-gray-500 hover:text-gray-300'
@@ -534,12 +537,14 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
                     {activeTab === 'vibe' && detail?.vibe && (
                       <div className="flex flex-col items-center">
                         <p className="text-[10px] text-gray-600 mb-8 text-center uppercase tracking-[0.3em] font-black">Atmospheric Signature</p>
-                        <VibeChart vibe={detail.vibe} size={250} />
-                        <div className="grid grid-cols-5 gap-2 mt-10 w-full px-4">
+                        <div className="scale-75 sm:scale-100">
+                          <VibeChart vibe={detail.vibe} size={250} />
+                        </div>
+                        <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-5 gap-2 mt-10 w-full">
                           {Object.entries(detail.vibe).map(([key, val]) => (
-                            <div key={key} className="text-center p-3 rounded-2xl border border-white/5 bg-white/5">
-                              <div className="text-xl font-black text-white">{val}</div>
-                              <div className="text-[9px] text-gray-600 uppercase font-black tracking-tighter mt-1">{key}</div>
+                            <div key={key} className="text-center p-2.5 sm:p-3 rounded-2xl border border-white/5 bg-white/5">
+                              <div className="text-lg sm:text-xl font-black text-white">{val}</div>
+                              <div className="text-[8px] sm:text-[9px] text-gray-600 uppercase font-black tracking-tighter mt-0.5 sm:mt-1">{key}</div>
                             </div>
                           ))}
                         </div>

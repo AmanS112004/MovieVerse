@@ -49,6 +49,8 @@ interface AppState {
   setOopsModalOpen: (open: boolean) => void;
   createCollectionModalOpen: boolean;
   setCreateCollectionModalOpen: (open: boolean) => void;
+  activeCollectionMovie: Movie | null;
+  setActiveCollectionMovie: (movie: Movie | null) => void;
   compareWarning: string | null;
   setCompareWarning: (msg: string | null) => void;
 }
@@ -169,6 +171,8 @@ export const useStore = create<AppState>()(
       setOopsModalOpen: (open) => set({ oopsModalOpen: open }),
       createCollectionModalOpen: false,
       setCreateCollectionModalOpen: (open) => set({ createCollectionModalOpen: open }),
+      activeCollectionMovie: null,
+      setActiveCollectionMovie: (movie) => set({ activeCollectionMovie: movie }),
       compareWarning: null,
 
       setCompareWarning: (msg) => set({ compareWarning: msg }),
