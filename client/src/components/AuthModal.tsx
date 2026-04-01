@@ -140,7 +140,7 @@ export default function AuthModal({ onClose }: AuthModalProps) {
                   useOneTap
                   theme="outline"
                   shape="pill"
-                  width="100%"
+                  width="320"
                 />
               </div>
 
