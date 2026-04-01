@@ -7,6 +7,7 @@ import VibeChart from './VibeChart';
 import { getPosterUrl, getBackdropUrl, formatRuntime, formatFullDate, cn } from '@/lib/utils';
 import { useStore } from '@/store/useStore';
 import type { Movie, MovieDetail, CastMember } from '@/types';
+import AddMovieToCollection from './AddMovieToCollection';
 
 interface MovieModalProps {
   movie: Movie;
@@ -133,14 +134,14 @@ export default function MovieModal({ movie, onClose, onCastClick }: MovieModalPr
           onClick={e => e.stopPropagation()}
         >
           <AnimatePresence>
-            {showCollections && (
+            {activeCollectionMovie?.id === movie.id && (
               <div 
                 className="absolute top-20 right-6 z-[110]"
                 onClick={(e) => e.stopPropagation()}
               >
                 <AddMovieToCollection 
                   movie={movie}
-                  onClose={() => setShowCollections(false)}
+                  onClose={() => setActiveCollectionMovie(null)}
                   onCreateNewCollection={() => setCreateCollectionModalOpen(true)}
                 />
               </div>

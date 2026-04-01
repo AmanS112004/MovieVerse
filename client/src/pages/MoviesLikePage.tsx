@@ -9,7 +9,7 @@ import Navbar from '@/components/Navbar';
 import api from '@/lib/api';
 import { useStore } from '@/store/useStore';
 import { getBackdropUrl, cn } from '@/lib/utils';
-import type { Movie } from '@/types';
+import type { Movie, MovieDetail } from '@/types';
 import CreateCollectionModal from '@/components/CreateCollectionModal';
 
 // Lazy load modals to optimize bundle
@@ -50,7 +50,7 @@ export default function MoviesLikePage() {
   }, [movieId]);
 
   // Fetch current movie details
-  const { data: sourceMovie, isLoading: loadingSource, error: sourceError } = useQuery<Movie>({
+  const { data: sourceMovie, isLoading: loadingSource, error: sourceError } = useQuery<MovieDetail>({
     queryKey: ['movie-detail', movieId],
     queryFn: async () => {
       const { data } = await api.get(`/movies/detail/${movieId}`);
@@ -174,7 +174,12 @@ export default function MoviesLikePage() {
                     if (activeCollectionMovie?.id === sourceMovie?.id) {
                       setActiveCollectionMovie(null);
                     } else if (sourceMovie) {
-                      setActiveCollectionMovie(sourceMovie);
+                      setActiveCollectionMovie({
+                        ...sourceMovie,
+                        poster_path: sourceMovie.poster_path || null,
+                        backdrop_path: sourceMovie.backdrop_path || null,
+                        media_type: 'movie'
+                      });
                     }
                   }
                 }}

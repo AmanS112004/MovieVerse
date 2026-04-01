@@ -10,6 +10,9 @@ import Collections from './pages/Collections';
 import CollectionDetail from './pages/CollectionDetail';
 import MoviesLikePage from './pages/MoviesLikePage';
 import AddMovieToCollection from './components/AddMovieToCollection';
+import AuthModal from './components/AuthModal';
+import OopsModal from './components/OopsModal';
+import CreateCollectionModal from './components/CreateCollectionModal';
 import './index.css';
 
 const queryClient = new QueryClient({
@@ -25,6 +28,11 @@ export default function App() {
   const { 
     activeCollectionMovie, 
     setActiveCollectionMovie,
+    authModalOpen,
+    setAuthModalOpen,
+    oopsModalOpen,
+    setOopsModalOpen,
+    createCollectionModalOpen,
     setCreateCollectionModalOpen 
   } = useStore();
 
@@ -52,6 +60,15 @@ export default function App() {
                   setCreateCollectionModalOpen(true);
                 }}
               />
+            )}
+            {authModalOpen && (
+              <AuthModal onClose={() => setAuthModalOpen(false)} />
+            )}
+            {oopsModalOpen && (
+              <OopsModal />
+            )}
+            {createCollectionModalOpen && (
+              <CreateCollectionModal onClose={() => setCreateCollectionModalOpen(false)} />
             )}
           </AnimatePresence>
         </div>
